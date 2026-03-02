@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animal sound bridge · sanctuary music</title>
+    <title>Animal sound bridge · studio w/ BandLab</title>
     <!-- Font Awesome, Google Fonts Inter (same lean & fresh style) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
     <style>
-        /* ----- exact same base & reset from the latest code you loved (no VEFO traces) ----- */
+        /* ----- base & reset, color palette: yellow (#F9D342), pink (#E83C6C), purple (#8A4FFF), green (#2b825b) ----- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
@@ -23,33 +23,39 @@
         h2 { font-size: clamp(2rem, 4.5vw, 2.8rem); margin-bottom: 1.8rem; position: relative; display: inline-block; }
         h2:after {
             content: ''; position: absolute; bottom: -10px; left: 0;
-            width: 70px; height: 4px; background: #2b825b;
+            width: 70px; height: 4px; background: #2b825b; /* signature green */
         }
-        /* header sticky */
+
+        /* header sticky – with purple tint */
         header {
             padding: 20px 0; position: sticky; top: 0;
             background: rgba(250, 250, 244, 0.96); backdrop-filter: blur(8px);
-            border-bottom: 1px solid #ddebe4; z-index: 100;
+            border-bottom: 2px solid #F9D342; /* yellow accent */
+            z-index: 100;
         }
         .header-content { display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 2rem; font-weight: 700; }
         .logo a { text-decoration: none; color: #1e3a2f; }
         .nav-links { display: flex; gap: 2.2rem; }
         .nav-links a { text-decoration: none; color: #1e3a2f; font-weight: 500; transition: color 0.2s; }
-        .nav-links a:hover { color: #2b825b; }
+        .nav-links a:hover { color: #8A4FFF; } /* purple */
+
         .btn {
             display: inline-block; background: #1e3a2f; color: white; padding: 12px 30px;
             border-radius: 40px; text-decoration: none; font-weight: 600; transition: 0.25s;
             border: none; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.03);
         }
-        .btn:hover { background: #2b825b; transform: translateY(-3px); box-shadow: 0 12px 24px rgba(43,130,91,0.25); }
+        .btn:hover { background: #8A4FFF; transform: translateY(-3px); box-shadow: 0 12px 24px rgba(138,79,255,0.25); }
         .btn-outline { background: transparent; color: #1e3a2f; border: 2px solid #1e3a2f; }
-        .btn-outline:hover { background: #1e3a2f; color: white; }
+        .btn-outline:hover { background: #F9D342; color: #1e3a2f; border-color: #F9D342; }
 
-        /* hero – activist tone, now concept-based */
-        .hero { min-height: 80vh; display: flex; align-items: center; padding: 40px 0 80px; background: #f0f7f2; }
+        /* hero – new gradient with yellow/pink/purple */
+        .hero {
+            min-height: 80vh; display: flex; align-items: center; padding: 40px 0 80px;
+            background: linear-gradient(135deg, #f9d34220 0%, #e83c6c20 70%, #8a4fff20 100%);
+        }
         .hero-subtitle {
-            font-size: 1.2rem; color: #2b825b; font-weight: 600; margin-bottom: 20px;
+            font-size: 1.2rem; color: #E83C6C; font-weight: 700; margin-bottom: 20px;
             text-transform: uppercase; letter-spacing: 2px;
         }
         .hero-description { font-size: 1.3rem; color: #2d3f33; max-width: 620px; margin: 30px 0 40px; }
@@ -57,67 +63,83 @@
 
         .section { padding: 80px 0; }
         .section-header { margin-bottom: 48px; }
-        .eyebrow { color: #2b825b; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; }
+        .eyebrow { color: #E83C6C; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; }
 
-        /* sanctuary feature : cards for sounds */
-        .grid-3, .grid-4 { display: grid; gap: 30px; }
+        /* grids */
+        .grid-3, .grid-4, .grid-2 { display: grid; gap: 30px; }
         .grid-3 { grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); }
         .grid-4 { grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+        .grid-2 { grid-template-columns: 1fr 1fr; }
+
         .card {
             background: white; border-radius: 28px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,30,10,0.04);
             border: 1px solid #e2f0e8; transition: all 0.2s; height: 100%;
         }
-        .card:hover { transform: translateY(-6px); border-color: #2b825b; box-shadow: 0 22px 35px rgba(43,130,91,0.1); }
-        .card-media { height: 160px; background: #cde8db; display: flex; align-items: center; justify-content: center; color: #1e4d33; font-size: 2.5rem; }
+        .card:hover { transform: translateY(-6px); border-color: #8A4FFF; box-shadow: 0 22px 35px rgba(138,79,255,0.1); }
+        .card-media { height: 160px; background: #F9D34230; display: flex; align-items: center; justify-content: center; color: #1e4d33; font-size: 2.5rem; }
         .badge {
             display: inline-flex; align-items: center; gap: 6px; background: #e2f0e8;
             color: #1e4d33; padding: 5px 16px; border-radius: 40px; font-size: 0.8rem; font-weight: 600;
         }
         .card-body { padding: 24px; }
         .card-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 8px; }
-        .meta { color: #2b825b; font-size: 0.9rem; margin-bottom: 12px; display: flex; gap: 12px; flex-wrap: wrap; }
-        .link { display: inline-flex; align-items: center; gap: 8px; color: #2b825b; font-weight: 600; text-decoration: none; }
+        .meta { color: #E83C6C; font-size: 0.9rem; margin-bottom: 12px; display: flex; gap: 12px; flex-wrap: wrap; }
+        .link { display: inline-flex; align-items: center; gap: 8px; color: #8A4FFF; font-weight: 600; text-decoration: none; }
 
-        /* about split with sanctuary portrait (no artist name) */
+        /* about grid */
         .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-        .portrait { border-radius: 40px; overflow: hidden; background: #d1e6db; padding: 20px; }
+        .portrait { border-radius: 40px; overflow: hidden; background: #F9D34240; padding: 20px; }
         .portrait-img { width: 100%; height: auto; display: block; border-radius: 24px; }
         .values { display: flex; flex-wrap: wrap; gap: 12px; margin: 30px 0; }
-        .value { background: #e2f0e8; padding: 8px 22px; border-radius: 40px; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
+        .value { background: #F9D34230; padding: 8px 22px; border-radius: 40px; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
 
-        /* ai-assisted / educational panel */
+        /* ai panel */
         .ai-panel {
-            background: #e6f2ec; border-radius: 40px; padding: 40px; margin: 60px 0;
-            border-left: 8px solid #2b825b;
+            background: #8A4FFF10; border-radius: 40px; padding: 40px; margin: 60px 0;
+            border-left: 8px solid #8A4FFF;
         }
         .ai-panel h3 { font-size: 1.8rem; margin-bottom: 20px; }
         .ai-tag-list { display: flex; flex-wrap: wrap; gap: 16px; margin: 30px 0; }
         .ai-tag { background: white; border-radius: 60px; padding: 10px 24px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); display: flex; align-items: center; gap: 8px; font-weight: 500; }
-        .ai-tag i { color: #2b825b; }
+        .ai-tag i { color: #E83C6C; }
 
-        /* contact + cal style */
+        /* studio highlight (BandLab integration) */
+        .bandlab-strip {
+            background: linear-gradient(145deg, #F9D34220, #E83C6C20, #8A4FFF20);
+            border-radius: 80px;
+            padding: 50px 40px;
+            margin: 40px 0;
+            border: 2px solid #F9D342;
+        }
+        .bandlab-btn {
+            background: #E83C6C; color: white; border: none; padding: 16px 40px; border-radius: 60px;
+            font-weight: 700; font-size: 1.2rem; transition: 0.2s; display: inline-flex; align-items: center; gap: 12px;
+        }
+        .bandlab-btn:hover { background: #8A4FFF; transform: scale(1.02); box-shadow: 0 16px 28px #8A4FFF80; }
+
+        /* contact */
         .scheduling-options { display: flex; flex-direction: column; gap: 16px; }
         .cal-button {
-            display: flex; align-items: center; justify-content: space-between; background: #f5fcf8;
+            display: flex; align-items: center; justify-content: space-between; background: #F9D34220;
             padding: 18px 24px; border-radius: 60px; text-decoration: none; color: #1e3a2f;
             border: 1px solid transparent; transition: 0.2s;
         }
-        .cal-button:hover { background: #d9efe3; border-color: #2b825b; transform: translateX(6px); }
+        .cal-button:hover { background: #F9D34280; border-color: #E83C6C; transform: translateX(6px); }
         .cal-button-left { display: flex; align-items: center; gap: 20px; }
-        .cal-button i { font-size: 1.7rem; color: #2b825b; width: 36px; }
-        .cal-badge { background: #2b825b; color: white; padding: 4px 16px; border-radius: 60px; font-size: 0.75rem; }
+        .cal-button i { font-size: 1.7rem; color: #E83C6C; width: 36px; }
+        .cal-badge { background: #8A4FFF; color: white; padding: 4px 16px; border-radius: 60px; font-size: 0.75rem; }
 
         .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
 
-        /* footer fully visible */
-        .footer { background: white; border-top: 2px solid #deece3; padding: 60px 0 30px; margin-top: 40px; }
+        /* footer */
+        .footer { background: white; border-top: 2px solid #F9D342; padding: 60px 0 30px; margin-top: 40px; }
         .footer-top { display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center; gap: 20px; }
         .social-links a { color: #1e3a2f; font-size: 1.8rem; margin-right: 20px; transition: 0.2s; }
-        .social-links a:hover { color: #2b825b; transform: scale(1.15); }
+        .social-links a:hover { color: #8A4FFF; transform: scale(1.15); }
 
         @media (max-width: 700px) {
             .nav-links { display: none; }
-            .about-grid, .contact-grid { grid-template-columns: 1fr; }
+            .about-grid, .contact-grid, .grid-2 { grid-template-columns: 1fr; }
             .hero-buttons .btn { width: 100%; }
         }
     </style>
@@ -128,58 +150,86 @@
             <div class="logo"><a href="#">🐾 animal sound bridge</a></div>
             <nav class="nav-links">
                 <a href="#library">sound library</a>
-                <a href="#about">story</a>
+                <a href="#studio">BandLab studio</a>
                 <a href="#ai-lab">AI teacher</a>
                 <a href="#sanctuary">sanctuaries</a>
                 <a href="#contact">connect</a>
             </nav>
-            <a href="#contact" class="btn" style="padding: 10px 26px;">🐮 book workshop</a>
+            <a href="#contact" class="btn" style="padding: 10px 26px;">🎛️ open studio</a>
         </div>
     </header>
 
     <main>
-        <!-- Hero – now general concept: connecting youth, animals, sanctuaries -->
+        <!-- Hero – now with BandLab integration message -->
         <section class="hero">
             <div class="container">
-                <div class="hero-subtitle"><i class="fas fa-paw" style="margin-right: 8px;"></i> music · empathy · sanctuary</div>
-                <h1>listening to animals,<br>composing with heart</h1>
+                <div class="hero-subtitle"><i class="fas fa-paw" style="margin-right: 8px; color: #E83C6C;"></i> music · empathy · BandLab studio</div>
+                <h1>listen, learn,<br>remix on BandLab</h1>
                 <p class="hero-description">
                     A platform for sanctuaries and schools: use real animal voices, ethically recorded, 
-                    to compose music, learn about animal emotions, and build compassion. No generative AI — just real sounds and AI as teacher.
+                    to compose music in BandLab. No generative AI — just real sounds and AI as teacher.
                 </p>
                 <div class="hero-buttons">
                     <a href="#library" class="btn"><i class="fas fa-headphones"></i> explore animal sounds</a>
-                    <a href="#ai-lab" class="btn btn-outline"><i class="fas fa-robot"></i> AI‑assisted (non‑generative)</a>
+                    <a href="#studio" class="btn btn-outline"><i class="fab fa-bandcamp"></i> open in BandLab</a>
                 </div>
                 <div style="margin-top: 40px; display: flex; gap: 20px; font-size: 1rem; color: #2b6b4c;">
-                    <span><i class="fas fa-check-circle"></i> 180+ ethically recorded calls</span>
-                    <span><i class="fas fa-tag"></i> tagged by emotion/habitat</span>
+                    <span><i class="fas fa-check-circle" style="color:#8A4FFF;"></i> 180+ ethically recorded calls</span>
+                    <span><i class="fas fa-tag" style="color:#E83C6C;"></i> tagged by emotion/habitat</span>
                 </div>
             </div>
         </section>
 
-        <!-- ANIMAL SOUND LIBRARY – curated, AI‑organized (non‑generative) -->
+        <!-- BandLab STUDIO SECTION – new, showing harmony with the DAW -->
+        <section id="studio" class="section bandlab-strip">
+            <div class="container" style="text-align: center;">
+                <span class="eyebrow" style="color:#8A4FFF;">⚡ works in perfect harmony</span>
+                <h2 style="color:#1e3a2f;">compose with BandLab</h2>
+                <p style="max-width: 700px; margin: 20px auto; font-size: 1.2rem;">All animal sounds can be exported as high‑quality loops and samples. Drag them directly into BandLab's free DAW — online or mobile — and arrange them into tracks.</p>
+                
+                <div class="grid-2" style="margin: 50px 0; text-align: left;">
+                    <div class="card" style="background:#ffffffcc;">
+                        <div class="card-body">
+                            <i class="fas fa-cloud-upload-alt" style="font-size: 2.5rem; color:#E83C6C;"></i>
+                            <div class="card-title">1. pick a sound</div>
+                            <p>Browse the library, preview, and download the high‑quality WAV (ethically recorded).</p>
+                        </div>
+                    </div>
+                    <div class="card" style="background:#ffffffcc;">
+                        <div class="card-body">
+                            <i class="fas fa-sliders-h" style="font-size: 2.5rem; color:#8A4FFF;"></i>
+                            <div class="card-title">2. arrange in BandLab</div>
+                            <p>Import into BandLab’s online DAW — layer, add effects, loop, and mix. Works on any device.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="https://bandlab.com" target="_blank" class="btn bandlab-btn">
+                    <i class="fab fa-bandcamp"></i> launch BandLab studio (free)
+                </a>
+                <p style="margin-top: 30px;"><i class="fas fa-arrow-right" style="color:#E83C6C;"></i> every sound includes attribution & sanctuary story — ready to be embedded in your BandLab project.</p>
+            </div>
+        </section>
+
+        <!-- ANIMAL SOUND LIBRARY – curated, with BandLab export buttons -->
         <section id="library" class="section">
             <div class="container">
                 <div class="section-header">
-                    <div class="eyebrow"><i class="fas fa-dove"></i> curated sound library</div>
+                    <div class="eyebrow"><i class="fas fa-dove" style="color:#E83C6C;"></i> curated sound library</div>
                     <h2>real voices · real stories</h2>
-                    <p style="max-width: 700px;">Ethically recorded, sanctuary‑partnered. AI helps you sort by emotion, species, or habitat — then you compose.</p>
+                    <p style="max-width: 700px;">Ethically recorded, sanctuary‑partnered. AI helps you sort by emotion, species, or habitat — then you compose in BandLab.</p>
                 </div>
 
-                <!-- AI tags (reflect AI organisation) -->
+                <!-- AI tags -->
                 <div class="ai-tag-list">
-                    <span class="ai-tag"><i class="fas fa-water"></i> wetland (23)</span>
-                    <span class="ai-tag"><i class="fas fa-tree"></i> forest (41)</span>
-                    <span class="ai-tag"><i class="fas fa-drum"></i> rhythmic pattern</span>
-                    <span class="ai-tag"><i class="fas fa-bell"></i> alarm call (8)</span>
-                    <span class="ai-tag"><i class="fas fa-heart"></i> contact call (16)</span>
-                    <span class="ai-tag"><i class="fas fa-moon"></i> nocturnal</span>
-                    <span class="ai-tag"><i class="fas fa-sun"></i> dawn chorus</span>
-                    <span class="ai-tag"><i class="fas fa-music"></i> 120–400hz</span>
+                    <span class="ai-tag"><i class="fas fa-water" style="color:#8A4FFF;"></i> wetland (23)</span>
+                    <span class="ai-tag"><i class="fas fa-tree" style="color:#2b825b;"></i> forest (41)</span>
+                    <span class="ai-tag"><i class="fas fa-drum" style="color:#F9D342;"></i> rhythmic pattern</span>
+                    <span class="ai-tag"><i class="fas fa-bell" style="color:#E83C6C;"></i> alarm call (8)</span>
+                    <span class="ai-tag"><i class="fas fa-heart" style="color:#E83C6C;"></i> contact call (16)</span>
                 </div>
 
-                <!-- sound cards - farmed animals + wild examples (no artist references) -->
+                <!-- sound cards - each with BandLab remix button -->
                 <div class="grid-3" style="margin-top: 30px;">
                     <div class="card">
                         <div class="card-media"><i class="fas fa-frog" style="font-size: 4rem;"></i></div>
@@ -189,6 +239,7 @@
                             <div class="meta"><i class="fas fa-tag"></i> play, social, night</div>
                             <p>recorded at a partner sanctuary · CC‑BY attribution</p>
                             <a href="#" class="link">sample <i class="fas fa-arrow-right"></i></a>
+                            <div style="margin-top: 15px;"><a href="https://bandlab.com" target="_blank" class="btn btn-outline" style="padding: 8px 16px; font-size:0.9rem;"><i class="fab fa-bandcamp"></i> remix in BandLab</a></div>
                         </div>
                     </div>
                     <div class="card">
@@ -197,8 +248,9 @@
                             <div class="badge">bovine · sanctuary</div>
                             <div class="card-title">cow lowing (contact)</div>
                             <div class="meta"><i class="fas fa-tag"></i> social, calm, mother-calf</div>
-                            <p>gentle rumble from rescued cattle · ideal for ambient</p>
+                            <p>gentle rumble from rescued cattle</p>
                             <a href="#" class="link">sample <i class="fas fa-arrow-right"></i></a>
+                            <div style="margin-top: 15px;"><a href="https://bandlab.com" target="_blank" class="btn btn-outline" style="padding: 8px 16px; font-size:0.9rem;"><i class="fab fa-bandcamp"></i> remix in BandLab</a></div>
                         </div>
                     </div>
                     <div class="card">
@@ -206,39 +258,10 @@
                         <div class="card-body">
                             <div class="badge">goat · playful</div>
                             <div class="card-title">young goat bleats</div>
-                            <div class="meta"><i class="fas fa-tag"></i> play, excitement, morning</div>
-                            <p>kids at Freegan Sanctuary · use for uplifting rhythm</p>
+                            <div class="meta"><i class="fas fa-tag"></i> play, excitement</div>
+                            <p>kids at Freegan Sanctuary</p>
                             <a href="#" class="link">sample <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-media"><i class="fas fa-feather" style="font-size: 4rem;"></i></div>
-                        <div class="card-body">
-                            <div class="badge">chicken · farmed</div>
-                            <div class="card-title">hens after laying (content)</div>
-                            <div class="meta"><i class="fas fa-tag"></i> low frequency purr</div>
-                            <p>rescued battery hens · comfort / contact</p>
-                            <a href="#" class="link">sample <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-media"><i class="fas fa-pig" style="font-size: 4rem;"></i></div>
-                        <div class="card-body">
-                            <div class="badge">pig · sanctuary</div>
-                            <div class="card-title">piglet grunts (nursing)</div>
-                            <div class="meta"><i class="fas fa-tag"></i> social, happy, repetitive</div>
-                            <p>80 bpm quality · Indiana Farmed Animal Sanctuary</p>
-                            <a href="#" class="link">sample <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-media"><i class="fas fa-bug" style="font-size: 4rem;"></i></div>
-                        <div class="card-body">
-                            <div class="badge">insect · night</div>
-                            <div class="card-title">katydid symphony</div>
-                            <div class="meta"><i class="fas fa-tag"></i> rhythmic, 5khz</div>
-                            <p>excellent for beat layering (non‑generative)</p>
-                            <a href="#" class="link">sample <i class="fas fa-arrow-right"></i></a>
+                            <div style="margin-top: 15px;"><a href="https://bandlab.com" target="_blank" class="btn btn-outline" style="padding: 8px 16px; font-size:0.9rem;"><i class="fab fa-bandcamp"></i> remix in BandLab</a></div>
                         </div>
                     </div>
                 </div>
@@ -248,7 +271,38 @@
             </div>
         </section>
 
-        <!-- About: now general concept, not tied to a single artist -->
+        <!-- AI ASSISTED LAB (non‑generative) – with new palette -->
+        <section id="ai-lab" class="section ai-panel">
+            <div class="container">
+                <h3 style="display: flex; gap: 15px; align-items: center;"><i class="fas fa-microchip" style="color: #8A4FFF;"></i> AI‑assisted studio — zero generative AI</h3>
+                <p style="font-size: 1.2rem; margin-bottom: 30px;">Our tools only analyse, tag, and suggest ecological guardrails. You compose in BandLab.</p>
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <i class="fas fa-tags" style="font-size: 2rem; color: #E83C6C;"></i>
+                            <div class="card-title">smart tagging</div>
+                            <p>Emotion, habitat, frequency clustering — find the right call in seconds.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 2rem; color: #F9D342;"></i>
+                            <div class="card-title">ecological constraint</div>
+                            <p>“These two species don’t share a range — consider separate tracks.”</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <i class="fas fa-graduation-cap" style="font-size: 2rem; color: #2b825b;"></i>
+                            <div class="card-title">real‑time learning</div>
+                            <p>Click any sound: conservation status, animal behavior, and creative prompts.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About & sanctuaries (condensed to keep flow) -->
         <section id="about" class="section about" style="background: #f4fbf7;">
             <div class="container">
                 <div class="section-header">
@@ -257,75 +311,37 @@
                 </div>
                 <div class="about-grid">
                     <div class="portrait">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%239fc7b1'/%3E%3Ctext x='40' y='160' font-family='Inter' font-size='24' fill='%231e4d33'%3Esanctuary workshop%3C/text%3E%3C/svg%3E" alt="workshop at animal sanctuary" class="portrait-img">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23F9D34240'/%3E%3Ctext x='40' y='160' font-family='Inter' font-size='24' fill='%231e4d33'%3Esanctuary workshop%3C/text%3E%3C/svg%3E" alt="workshop" class="portrait-img">
                     </div>
                     <div>
-                        <p style="font-size: 1.2rem;">We bring youth into sanctuaries to learn music production and animal sensitivity — using real animal voices, never AI‑generated. We compose, we connect, we fundraise for wildlife and farmed animal sanctuaries.</p>
+                        <p>We bring youth into sanctuaries to learn music production using BandLab and real animal voices — never AI‑generated. Backed by <a href="https://faunalytics.org/farm-sanctuary/" target="_blank" style="color:#8A4FFF;">Faunalytics research</a>.</p>
                         <div class="values">
-                            <span class="value"><i class="fas fa-paw"></i> 20+ sanctuaries</span>
-                            <span class="value"><i class="fas fa-music"></i> youth workshops</span>
-                            <span class="value"><i class="fas fa-hand-holding-heart"></i> ethical recording</span>
-                            <span class="value"><i class="fas fa-leaf"></i> vegan connection</span>
+                            <span class="value">20+ sanctuaries</span>
+                            <span class="value">youth workshops</span>
+                            <span class="value">ethical recording</span>
                         </div>
-                        <p style="margin-top: 20px;">Backed by <a href="https://faunalytics.org/farm-sanctuary/" target="_blank" style="color:#2b825b;">Faunalytics research</a> — sanctuary visits deeply shift perspectives. We add a creative sonic layer: compose with the animals you meet.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- AI ASSISTED LAB (non‑generative, educational constraints) -->
-        <section id="ai-lab" class="section ai-panel">
-            <div class="container">
-                <h3 style="display: flex; gap: 15px; align-items: center;"><i class="fas fa-microchip" style="color: #2b825b;"></i> AI‑assisted studio — zero generative AI</h3>
-                <p style="font-size: 1.2rem; margin-bottom: 30px;">Our tools only analyse, tag, and suggest ecological guardrails. You compose.</p>
-                <div class="grid-3">
-                    <div class="card" style="border-radius: 28px;">
-                        <div class="card-body">
-                            <i class="fas fa-tags" style="font-size: 2rem; color: #2b825b;"></i>
-                            <div class="card-title" style="margin-top: 10px;">smart tagging</div>
-                            <p>Emotion, habitat, frequency clustering — find the right crane call or distress call in seconds.</p>
-                            <span class="badge">alarm vs contact</span>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <i class="fas fa-exclamation-triangle" style="font-size: 2rem; color: #2b825b;"></i>
-                            <div class="card-title">ecological constraint</div>
-                            <p>“These two species don’t share a range — consider separate tracks.” or “overlapping frequencies, maybe pan?”</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <i class="fas fa-graduation-cap" style="font-size: 2rem; color: #2b825b;"></i>
-                            <div class="card-title">real‑time learning</div>
-                            <p>Click any sound: “elephant rumble — infrasound, contact, endangered (IUCN red list).” prompts: create a calm savanna?</p>
-                        </div>
-                    </div>
-                </div>
-                <div style="margin-top: 40px; background: white; border-radius: 60px; padding: 25px; display: flex; flex-wrap: wrap; gap: 20px; align-items: center;">
-                    <i class="fas fa-quote-left" style="font-size: 2rem; color: #2b825b;"></i>
-                    <span><strong>example:</strong> “these howler monkeys and rainfrogs naturally coexist — their calls fit a dawn theme. AI suggests adding a slow heartbeat kick.”</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- SANCTUARIES section (no artist names) -->
+        <!-- SANCTUARIES grid -->
         <section id="sanctuary" class="section">
             <div class="container">
                 <div class="section-header">
                     <div class="eyebrow">partners in care</div>
-                    <h2>sanctuaries where we teach</h2>
+                    <h2>sanctuaries we collaborate with</h2>
                 </div>
                 <div class="grid-4">
-                    <div class="card"><div class="card-body"><i class="fas fa-home" style="font-size: 2.5rem; color:#2b825b;"></i><div class="card-title">freedom farm</div>rescued goats, poultry → music therapy sessions</div></div>
-                    <div class="card"><div class="card-body"><i class="fas fa-tree" style="font-size: 2.5rem; color:#2b825b;"></i><div class="card-title">wild care</div>leopard, birds · youth sound mapping</div></div>
-                    <div class="card"><div class="card-body"><i class="fas fa-water" style="font-size: 2.5rem; color:#2b825b;"></i><div class="card-title">wetland centre</div>bird calls & ambient composition</div></div>
-                    <div class="card"><div class="card-body"><i class="fas fa-paw" style="font-size: 2.5rem; color:#2b825b;"></i><div class="card-title">elephant corridor</div>fundraising via soundscape EPs</div></div>
+                    <div class="card"><div class="card-body"><i class="fas fa-home" style="color:#E83C6C;"></i><div class="card-title">freedom farm</div>music therapy sessions</div></div>
+                    <div class="card"><div class="card-body"><i class="fas fa-tree" style="color:#2b825b;"></i><div class="card-title">wild care</div>youth sound mapping</div></div>
+                    <div class="card"><div class="card-body"><i class="fas fa-water" style="color:#8A4FFF;"></i><div class="card-title">wetland centre</div>bird calls & ambient</div></div>
+                    <div class="card"><div class="card-body"><i class="fas fa-paw" style="color:#F9D342;"></i><div class="card-title">elephant corridor</div>fundraising via EPs</div></div>
                 </div>
             </div>
         </section>
 
-        <!-- CONTACT & BOOK (general inquiry) -->
+        <!-- CONTACT (kept same) -->
         <section id="contact" class="section contact-section" style="background: #f0faf4;">
             <div class="container">
                 <div class="section-header">
@@ -385,13 +401,12 @@
                 <span class="badge"><i class="fas fa-envelope"></i> hello@animalsound.bridge</span>
             </div>
             <div class="footer-bottom" style="text-align: center; padding-top: 30px; color: #4a6b5c;">
-                <p>© 2026 Animal Sound Bridge · music for animal sensitivity · working with sanctuaries worldwide 🌿</p>
+                <p>© 2026 Animal Sound Bridge · working in harmony with BandLab · 🌿</p>
                 <p style="margin-top: 8px;">every loop helps animals — 50% of workshop proceeds go to partner sanctuaries.</p>
             </div>
         </div>
     </footer>
     <script>
-        // minimal interactivity (copy badge, smooth scroll)
         document.addEventListener('DOMContentLoaded', function() {
             const emailBadge = document.querySelector('.badge i.fa-envelope')?.closest('.badge');
             if(emailBadge) {
@@ -402,7 +417,6 @@
                     setTimeout(() => emailBadge.innerHTML = '<i class="fas fa-envelope"></i> hello@animalsound.bridge', 2000);
                 });
             }
-            // smooth scroll
             document.querySelectorAll('a[href^="#"]').forEach(a => {
                 a.addEventListener('click', function(e) {
                     const id = this.getAttribute('href');
