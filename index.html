@@ -1,937 +1,372 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VEFO | Music for Action</title>
-    <!-- Font Awesome for icons -->
+    <title>VEFO · animal music bridge</title>
+    <!-- Font Awesome, Google Fonts Inter, same as original but kept lean -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts: Clean, modern typography -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="/style.css"> -->
-     <style>
-        /* Reset & Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Inter', sans-serif;
-    background-color: #fafaf8;
-    color: #1e1e1e;
-    line-height: 1.6;
-    scroll-behavior: smooth;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 24px;
-}
-
-/* Animations */
-@keyframes fadeInUp {
-    from {
-        transform: translateY(30px);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-/* Typography */
-h1,
-h2,
-h3 {
-    font-weight: 600;
-    letter-spacing: -0.02em;
-}
-
-h1 {
-    font-size: clamp(3rem, 8vw, 5rem);
-    line-height: 1.1;
-}
-
-h2 {
-    font-size: clamp(2rem, 5vw, 2.8rem);
-    margin-bottom: 2rem;
-    position: relative;
-    display: inline-block;
-}
-
-h2:after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 0;
-    width: 60px;
-    height: 4px;
-    background-color: #4caf50;
-}
-
-/* Header */
-header {
-    padding: 24px 0;
-    position: sticky;
-    top: 0;
-    background-color: rgba(250, 250, 248, 0.95);
-    backdrop-filter: blur(5px);
-    z-index: 100;
-    border-bottom: 1px solid #eaeaea;
-}
-
-.header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    font-size: 1.8rem;
-    font-weight: 700;
-}
-
-.logo a {
-    text-decoration: none;
-    color: #1e1e1e;
-}
-
-.nav-links {
-    display: flex;
-    gap: 32px;
-}
-
-.nav-links a {
-    text-decoration: none;
-    color: #1e1e1e;
-    font-weight: 500;
-    transition: color 0.2s;
-}
-
-.nav-links a:hover {
-    color: #4caf50;
-}
-
-.btn {
-    display: inline-block;
-    background-color: #1e1e1e;
-    color: white;
-    padding: 12px 28px;
-    border-radius: 4px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s;
-    border: none;
-    cursor: pointer;
-}
-
-.btn:hover {
-    background-color: #4caf50;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
-}
-
-.btn-outline {
-    background-color: transparent;
-    color: #1e1e1e;
-    border: 2px solid #1e1e1e;
-}
-
-.btn-outline:hover {
-    background-color: #1e1e1e;
-    color: white;
-}
-
-/* Hero Section */
-.hero {
-    min-height: 90vh;
-    display: flex;
-    align-items: center;
-    padding: 80px 0;
-}
-
-.hero-subtitle {
-    font-size: 1.2rem;
-    color: #4caf50;
-    font-weight: 600;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-.hero h1 {
-    margin-bottom: 30px;
-}
-
-.hero-description {
-    font-size: 1.3rem;
-    color: #4a4a4a;
-    margin-bottom: 40px;
-    max-width: 600px;
-}
-
-.hero-buttons {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-/* Music Grid */
-.music-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 30px;
-    margin: 50px 0;
-}
-
-.music-card {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
-    transition: all 0.3s;
-    border: 1px solid #f0f0f0;
-}
-
-.music-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(76, 175, 80, 0.1);
-    border-color: #4caf50;
-}
-
-.music-art {
-    height: 200px;
-    background-color: #e0e0e0;
-}
-
-.music-art iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
-.music-info {
-    padding: 24px;
-}
-
-.music-title {
-    font-size: 1.4rem;
-    font-weight: 600;
-    margin-bottom: 8px;
-}
-
-.music-meta {
-    color: #4caf50;
-    font-size: 0.9rem;
-    font-weight: 500;
-    margin-bottom: 15px;
-}
-
-.music-links {
-    display: flex;
-    gap: 15px;
-}
-
-.music-links a {
-    color: #1e1e1e;
-    text-decoration: none;
-    font-size: 0.95rem;
-    transition: color 0.2s;
-}
-
-.music-links a:hover {
-    color: #4caf50;
-}
-
-.music-links a i {
-    margin-right: 5px;
-}
-
-/* Section Styling */
-.section {
-    padding: 80px 0;
-}
-
-.section-header {
-    margin-bottom: 48px;
-}
-
-.eyebrow {
-    color: #4caf50;
-    font-size: 0.875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 8px;
-}
-
-/* Grid System */
-.grid {
-    display: grid;
-    gap: 30px;
-}
-
-.cols-3 {
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-}
-
-/* About Section */
-.about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: center;
-}
-
-.portrait {
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-}
-
-.portrait-img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-.values {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-top: 30px;
-}
-
-.value {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: #f5f5f5;
-    padding: 8px 16px;
-    border-radius: 30px;
-    font-size: 0.9rem;
-}
-
-.value i {
-    color: #4caf50;
-}
-
-/* Cards */
-.card {
-    background: white;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
-    border: 1px solid #f0f0f0;
-    transition: all 0.3s;
-    height: 100%;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(76, 175, 80, 0.1);
-    border-color: #4caf50;
-}
-
-.card-media {
-    height: 160px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: #e8f5e9;
-    color: #4caf50;
-    padding: 4px 12px;
-    border-radius: 30px;
-    font-size: 0.8rem;
-    font-weight: 600;
-}
-
-.card-body {
-    padding: 24px;
-}
-
-.card-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-}
-
-.row {
-    margin-top: 20px;
-}
-
-.link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: #4caf50;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.link:hover {
-    gap: 12px;
-}
-
-/* Cal.eu Integration */
-.scheduling-options {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin: 20px 0;
-}
-
-.cal-button {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #f5f5f5;
-    padding: 16px 20px;
-    border-radius: 12px;
-    text-decoration: none;
-    color: #1e1e1e;
-    transition: all 0.3s;
-    border: 1px solid transparent;
-}
-
-.cal-button:hover {
-    background: #e8f5e9;
-    border-color: #4caf50;
-    transform: translateX(5px);
-}
-
-.cal-button-left {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.cal-button i {
-    font-size: 1.5rem;
-    color: #4caf50;
-    width: 30px;
-}
-
-.cal-button span {
-    font-weight: 600;
-}
-
-.cal-button small {
-    color: #666;
-    font-size: 0.85rem;
-    display: block;
-}
-
-.cal-badge {
-    background: #4caf50;
-    color: white;
-    padding: 4px 12px;
-    border-radius: 30px;
-    font-size: 0.75rem;
-    font-weight: 600;
-}
-
-.or-divider {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #888;
-    font-size: 0.9rem;
-    margin: 20px 0;
-}
-
-.or-divider::before,
-.or-divider::after {
-    content: '';
-    flex: 1;
-    border-bottom: 1px solid #eaeaea;
-}
-
-.or-divider::before {
-    margin-right: 10px;
-}
-
-.or-divider::after {
-    margin-left: 10px;
-}
-
-/* Contact Section */
-.contact-section {
-    background: white;
-    border-radius: 30px;
-    padding: 60px 0;
-}
-
-.contact-grid {
-    grid-template-columns: 1fr 1fr;
-}
-
-.contact-card-left,
-.contact-card-right {
-    border: none;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    height: 100%;
-}
-
-.contact-lead {
-    font-size: 1.2rem;
-    margin: 20px 0;
-}
-
-.contact-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 20px;
-}
-
-.form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-}
-
-.input,
-.select,
-.textarea {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.95rem;
-    transition: all 0.3s;
-}
-
-.input:focus,
-.select:focus,
-.textarea:focus {
-    outline: none;
-    border-color: #4caf50;
-    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
-}
-
-.textarea {
-    height: 100px;
-    resize: vertical;
-}
-
-.btn-primary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    background: #4caf50;
-}
-
-.btn-primary:hover {
-    background: #1e1e1e;
-}
-
-.helper {
-    font-size: 0.875rem;
-    color: #888;
-    margin-top: 12px;
-}
-
-/* Footer - FULLY VISIBLE */
-.footer {
-    padding: 60px 0 30px;
-    border-top: 1px solid #eaeaea;
-    background: white;
-    width: 100%;
-    margin-top: 40px;
-}
-
-.footer-content {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-}
-
-.footer-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.footer-logo {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: #1e1e1e;
-    text-decoration: none;
-}
-
-.social-links {
-    display: flex;
-    gap: 24px;
-}
-
-.social-links a {
-    color: #1e1e1e;
-    font-size: 1.5rem;
-    transition: all 0.3s;
-    display: inline-block;
-}
-
-.social-links a:hover {
-    color: #4caf50;
-    transform: translateY(-3px) scale(1.1);
-}
-
-.footer-bottom {
-    text-align: center;
-    padding-top: 30px;
-    border-top: 1px solid #f0f0f0;
-    color: #888;
-    font-size: 0.9rem;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .nav-links {
-        display: none;
-    }
-
-    .about-grid,
-    .contact-grid,
-    .form-row {
-        grid-template-columns: 1fr;
-    }
-
-    .hero-buttons {
-        flex-direction: column;
-    }
-
-    .btn {
-        width: 100%;
-        text-align: center;
-    }
-
-    .footer-top {
-        flex-direction: column;
-        text-align: center;
-    }
-}
-     </style>
+    <style>
+        /* ----- same base & reset as original, with minor tweaks for activist brightness ----- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fafaf8;
+            color: #1e2a1e;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+        .container { max-width: 1300px; margin: 0 auto; padding: 0 28px; }
+        h1, h2, h3 { font-weight: 600; letter-spacing: -0.02em; }
+        h1 { font-size: clamp(2.8rem, 7vw, 4.8rem); line-height: 1.1; }
+        h2 { font-size: clamp(2rem, 4.5vw, 2.8rem); margin-bottom: 1.8rem; position: relative; display: inline-block; }
+        h2:after {
+            content: ''; position: absolute; bottom: -10px; left: 0;
+            width: 70px; height: 4px; background: #2b825b; /* deep sanctuary green */
+        }
+        /* header sticky */
+        header {
+            padding: 20px 0; position: sticky; top: 0;
+            background: rgba(250, 250, 244, 0.96); backdrop-filter: blur(8px);
+            border-bottom: 1px solid #ddebe4; z-index: 100;
+        }
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 2rem; font-weight: 700; }
+        .logo a { text-decoration: none; color: #1e3a2f; }
+        .nav-links { display: flex; gap: 2.2rem; }
+        .nav-links a { text-decoration: none; color: #1e3a2f; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover { color: #2b825b; }
+        .btn {
+            display: inline-block; background: #1e3a2f; color: white; padding: 12px 30px;
+            border-radius: 40px; text-decoration: none; font-weight: 600; transition: 0.25s;
+            border: none; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+        .btn:hover { background: #2b825b; transform: translateY(-3px); box-shadow: 0 12px 24px rgba(43,130,91,0.25); }
+        .btn-outline { background: transparent; color: #1e3a2f; border: 2px solid #1e3a2f; }
+        .btn-outline:hover { background: #1e3a2f; color: white; }
+
+        /* hero – activist tone */
+        .hero { min-height: 80vh; display: flex; align-items: center; padding: 40px 0 80px; background: #f0f7f2; }
+        .hero-subtitle {
+            font-size: 1.2rem; color: #2b825b; font-weight: 600; margin-bottom: 20px;
+            text-transform: uppercase; letter-spacing: 2px;
+        }
+        .hero-description { font-size: 1.3rem; color: #2d3f33; max-width: 620px; margin: 30px 0 40px; }
+        .hero-buttons { display: flex; gap: 20px; flex-wrap: wrap; }
+
+        /* music grid – but we adapt to "animal sound library" cards later */
+        .section { padding: 80px 0; }
+        .section-header { margin-bottom: 48px; }
+        .eyebrow { color: #2b825b; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; }
+
+        /* sanctuary feature : cards for sounds */
+        .grid-3, .grid-4 { display: grid; gap: 30px; }
+        .grid-3 { grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); }
+        .grid-4 { grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+        .card {
+            background: white; border-radius: 28px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,30,10,0.04);
+            border: 1px solid #e2f0e8; transition: all 0.2s; height: 100%;
+        }
+        .card:hover { transform: translateY(-6px); border-color: #2b825b; box-shadow: 0 22px 35px rgba(43,130,91,0.1); }
+        .card-media { height: 160px; background: #cde8db; display: flex; align-items: center; justify-content: center; color: #1e4d33; font-size: 2.5rem; }
+        .badge {
+            display: inline-flex; align-items: center; gap: 6px; background: #e2f0e8;
+            color: #1e4d33; padding: 5px 16px; border-radius: 40px; font-size: 0.8rem; font-weight: 600;
+        }
+        .card-body { padding: 24px; }
+        .card-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 8px; }
+        .meta { color: #2b825b; font-size: 0.9rem; margin-bottom: 12px; }
+        .link { display: inline-flex; align-items: center; gap: 8px; color: #2b825b; font-weight: 600; text-decoration: none; }
+
+        /* about split with sanctuary portrait */
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .portrait { border-radius: 40px; overflow: hidden; background: #d1e6db; padding: 20px; }
+        .portrait-img { width: 100%; height: auto; display: block; border-radius: 24px; }
+        .values { display: flex; flex-wrap: wrap; gap: 12px; margin: 30px 0; }
+        .value { background: #e2f0e8; padding: 8px 22px; border-radius: 40px; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
+
+        /* ai-assisted / educational panel (simulated) */
+        .ai-panel {
+            background: #e6f2ec; border-radius: 40px; padding: 40px; margin: 60px 0;
+            border-left: 8px solid #2b825b;
+        }
+        .ai-panel h3 { font-size: 1.8rem; margin-bottom: 20px; }
+        .ai-tag-list { display: flex; flex-wrap: wrap; gap: 16px; margin: 30px 0; }
+        .ai-tag { background: white; border-radius: 60px; padding: 10px 24px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); display: flex; align-items: center; gap: 8px; font-weight: 500; }
+        .ai-tag i { color: #2b825b; }
+
+        /* contact + cal style adapted from original */
+        .scheduling-options { display: flex; flex-direction: column; gap: 16px; }
+        .cal-button {
+            display: flex; align-items: center; justify-content: space-between; background: #f5fcf8;
+            padding: 18px 24px; border-radius: 60px; text-decoration: none; color: #1e3a2f;
+            border: 1px solid transparent; transition: 0.2s;
+        }
+        .cal-button:hover { background: #d9efe3; border-color: #2b825b; transform: translateX(6px); }
+        .cal-button-left { display: flex; align-items: center; gap: 20px; }
+        .cal-button i { font-size: 1.7rem; color: #2b825b; width: 36px; }
+        .cal-badge { background: #2b825b; color: white; padding: 4px 16px; border-radius: 60px; font-size: 0.75rem; }
+
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+
+        /* footer fully visible */
+        .footer { background: white; border-top: 2px solid #deec e3; padding: 60px 0 30px; margin-top: 40px; }
+        .footer-top { display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center; gap: 20px; }
+        .social-links a { color: #1e3a2f; font-size: 1.8rem; margin-right: 20px; transition: 0.2s; }
+        .social-links a:hover { color: #2b825b; transform: scale(1.15); }
+
+        @media (max-width: 700px) {
+            .nav-links { display: none; }
+            .about-grid, .contact-grid { grid-template-columns: 1fr; }
+            .hero-buttons .btn { width: 100; }
+        }
+    </style>
 </head>
-
 <body>
     <header>
         <div class="container header-content">
-            <div class="logo"><a href="#">VEFO</a></div>
+            <div class="logo"><a href="#">V E F O</a></div>
             <nav class="nav-links">
-                <a href="#music">Music</a>
-                <a href="#about">About</a>
-                <a href="#work">Work</a>
-                <a href="#services">Services</a>
-                <a href="#contact">Contact</a>
+                <a href="#library">sound library</a>
+                <a href="#about">story</a>
+                <a href="#ai-lab">AI studio</a>
+                <a href="#sanctuary">sanctuaries</a>
+                <a href="#contact">connect</a>
             </nav>
-            <a href="#contact" class="btn" style="padding: 10px 24px;">Book Now</a>
+            <a href="#contact" class="btn" style="padding: 10px 26px;">🐾 book workshop</a>
         </div>
     </header>
 
     <main>
-        <!-- Hero Section -->
+        <!-- Hero rewritten with animal–music bridge message -->
         <section class="hero">
-            <div class="container hero-content">
-                <div class="hero-subtitle">Musician. Activist. Performer.</div>
-                <h1>Music for<br>a changing world</h1>
-                <p class="hero-description">Creating conscious art at the intersection of animal rights, climate action,
-                    and mental health. Based in Bangalore, working worldwide.</p>
+            <div class="container">
+                <div class="hero-subtitle"><i class="fas fa-paw" style="margin-right: 8px;"></i> musician & sanctuary bridge</div>
+                <h1>listening to animals<br>composing with heart</h1>
+                <p class="hero-description">
+                    I bring youth into sanctuaries to learn music production and animal sensitivity — using real animal voices, 
+                    never AI‑generated. we compose, we connect, we fundraise for wildlife.
+                </p>
                 <div class="hero-buttons">
-                    <a href="#music" class="btn">Listen to Music</a>
-                    <a href="#contact" class="btn btn-outline">Book VEFO</a>
+                    <a href="#library" class="btn"><i class="fas fa-headphones"></i> explore animal sounds</a>
+                    <a href="#ai-lab" class="btn btn-outline"><i class="fas fa-robot"></i> AI‑assisted (not generative)</a>
+                </div>
+                <div style="margin-top: 40px; display: flex; gap: 20px; font-size: 1rem; color: #2b6b4c;">
+                    <span><i class="fas fa-check-circle"></i> 180+ ethically recorded calls</span>
+                    <span><i class="fas fa-tag"></i> tagged by emotion/habitat</span>
                 </div>
             </div>
         </section>
 
-        <!-- Featured Music Section -->
-        <section id="music" class="container" style="padding: 80px 0;">
-            <h2>Featured Music</h2>
-            <div class="music-grid">
-                <!-- Planet Heroes Card -->
-                <div class="music-card">
-                    <div class="music-art">
-                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLHZX9dZFcwdKEYbh78iopnrzJ4GeQFDn2"
-                            allowfullscreen></iframe>
-                    </div>
-                    <div class="music-info">
-                        <div class="music-title">Planet Heroes</div>
-                        <div class="music-meta">2025-2026 • Plant Based Treaty</div>
-                        <div class="music-links">
-                            <a href="https://youtube.com/playlist?list=PLHZX9dZFcwdKEYbh78iopnrzJ4GeQFDn2"
-                                target="_blank"><i class="fab fa-youtube"></i> YouTube</a>
-                            <a href="https://soundcloud.com/vefo-music-plant-based-treaty/sets/planet-heroes"
-                                target="_blank"><i class="fab fa-soundcloud"></i> SoundCloud</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Green Smoothie Card -->
-                <div class="music-card">
-                    <div class="music-art">
-                        <iframe
-                            src="https://www.youtube.com/embed/videoseries?list=OLAK5uy_ns_7SMIBSFPgLRPVcrtXEbTU6LMnuA6FI"
-                            allowfullscreen></iframe>
-                    </div>
-                    <div class="music-info">
-                        <div class="music-title">Green Smoothie</div>
-                        <div class="music-meta">2024 • Plant Based Treaty</div>
-                        <div class="music-links">
-                            <a href="https://youtube.com/playlist?list=OLAK5uy_ns_7SMIBSFPgLRPVcrtXEbTU6LMnuA6FI"
-                                target="_blank"><i class="fab fa-youtube"></i> YouTube</a>
-                            <a href="https://soundcloud.com/vefo-music/sets/green-smoothie-1" target="_blank"><i
-                                    class="fab fa-soundcloud"></i> SoundCloud</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Plant Based Treaty 1.5 Card -->
-                <div class="music-card">
-                    <div class="music-art">
-                        <iframe src="https://www.youtube.com/embed/N513RO6x6TY" allowfullscreen></iframe>
-                    </div>
-                    <div class="music-info">
-                        <div class="music-title">Plant Based Treaty 1.5</div>
-                        <div class="music-meta">2023 • Plant Based Treaty</div>
-                        <div class="music-links">
-                            <a href="https://youtube.com/playlist?list=OLAK5uy_kaSJXHYE4ccqLGUihns9PulXyiXXVzAHM"
-                                target="_blank"><i class="fab fa-youtube"></i> YouTube</a>
-                            <a href="https://soundcloud.com/vefo-music/sets/plant-based-treaty-1-5-1" target="_blank"><i
-                                    class="fab fa-soundcloud"></i> SoundCloud</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- About Section -->
-        <section id="about" class="section about">
+        <!-- ANIMAL SOUND LIBRARY – curated, AI‑organized (non‑generative) -->
+        <section id="library" class="section">
             <div class="container">
                 <div class="section-header">
-                    <div class="eyebrow">Story</div>
-                    <h2>From COP30 to the stage</h2>
+                    <div class="eyebrow"><i class="fas fa-dove"></i> curated sound library</div>
+                    <h2>real voices · real stories</h2>
+                    <p style="max-width: 700px;">Ethically recorded, sanctuary‑partnered. AI helps you sort by emotion, species, or habitat — then you compose.</p>
                 </div>
 
+                <!-- AI tags (static but reflect AI organisation) -->
+                <div class="ai-tag-list">
+                    <span class="ai-tag"><i class="fas fa-water"></i> wetland (23)</span>
+                    <span class="ai-tag"><i class="fas fa-tree"></i> forest (41)</span>
+                    <span class="ai-tag"><i class="fas fa-drum"></i> rhythmic pattern</span>
+                    <span class="ai-tag"><i class="fas fa-bell"></i> alarm call (8)</span>
+                    <span class="ai-tag"><i class="fas fa-heart"></i> contact call (16)</span>
+                    <span class="ai-tag"><i class="fas fa-moon"></i> nocturnal</span>
+                    <span class="ai-tag"><i class="fas fa-sun"></i> dawn chorus</span>
+                    <span class="ai-tag"><i class="fas fa-music"></i> 120–400hz</span>
+                </div>
+
+                <!-- sound cards - each like a music card but representing animal sounds -->
+                <div class="grid-3" style="margin-top: 30px;">
+                    <div class="card">
+                        <div class="card-media"><i class="fas fa-frog" style="font-size: 4rem;"></i></div>
+                        <div class="card-body">
+                            <div class="badge">amphibian · wetland</div>
+                            <div class="card-title">tree frog chorus</div>
+                            <div class="meta"><i class="fas fa-tag"></i> play, social, night</div>
+                            <p>recorded at bangalore sanctuary • CC‑BY attribution</p>
+                            <a href="#" class="link">sample <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-media"><i class="fas fa-dog" style="font-size: 4rem;"></i></div>
+                        <div class="card-body">
+                            <div class="badge">canid · grassland</div>
+                            <div class="card-title">indian wolf howl (pack)</div>
+                            <div class="meta"><i class="fas fa-tag"></i> contact, long‑distance</div>
+                            <p>ethological field recording • used with permission</p>
+                            <a href="#" class="link">sample <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-media"><i class="fas fa-crow" style="font-size: 4rem;"></i></div>
+                        <div class="card-body">
+                            <div class="badge">bird · forest</div>
+                            <div class="card-title">malabar whistling thrush</div>
+                            <div class="meta"><i class="fas fa-tag"></i> dawn, melodic</div>
+                            <p>rich tonal pattern • ideal for ambient layers</p>
+                            <a href="#" class="link">sample <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-media"><i class="fas fa-fish" style="font-size: 4rem;"></i></div>
+                        <div class="card-body">
+                            <div class="badge">fish · freshwater</div>
+                            <div class="card-title">mahi‑mahi grunts</div>
+                            <div class="meta"><i class="fas fa-tag"></i> foraging, social</div>
+                            <p>hydrophone recording • sanctuary partner</p>
+                            <a href="#" class="link">sample <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-media"><i class="fas fa-hippo" style="font-size: 4rem;"></i></div>
+                        <div class="card-body">
+                            <div class="badge">mammal · river</div>
+                            <div class="card-title">hippo wheeze honk</div>
+                            <div class="meta"><i class="fas fa-tag"></i> dominance? play?</div>
+                            <p>ai‑assisted context: submissive? check field notes</p>
+                            <a href="#" class="link">sample <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-media"><i class="fas fa-bug" style="font-size: 4rem;"></i></div>
+                        <div class="card-body">
+                            <div class="badge">insect · night</div>
+                            <div class="card-title">katydid symphony</div>
+                            <div class="meta"><i class="fas fa-tag"></i> rhythmic, 5khz</div>
+                            <p>excellent for beat layering (non‑generative)</p>
+                            <a href="#" class="link">sample <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin: 50px 0 0;">
+                    <a href="#" class="btn btn-outline"><i class="fas fa-sliders-h"></i> open full AI sorter (200+ sounds)</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About – activist + sanctuary teacher, COP30 etc (reused original spirit) -->
+        <section id="about" class="section about" style="background: #f4fbf7;">
+            <div class="container">
+                <div class="section-header">
+                    <div class="eyebrow">bridge builder</div>
+                    <h2>musician & sanctuary educator</h2>
+                </div>
                 <div class="about-grid">
                     <div class="portrait">
-                        <img src="vefo-performance.webp" alt="VEFO performing live" class="portrait-img">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%239fc7b1'/%3E%3Ctext x='40' y='160' font-family='Inter' font-size='24' fill='%231e4d33'%3Esanctuary workshop%3C/text%3E%3C/svg%3E" alt="workshop at animal sanctuary" class="portrait-img">
                     </div>
                     <div>
-                        <p style="font-size: 1.05rem;">I'm VEFO — an artist, activist, and creator who believes art can
-                            move people and make great positive change in the world.</p>
-                        <p style="margin-top: 12px;">My journey has taken me from performing in Canada to across South
-                            America to now India. Universities, Festivals, in government work to COP30 in Brazil, and
-                            now to Bangalore, where I create music that amplifies animal rights, climate action, and
-                            mental health awareness.</p>
-
+                        <p style="font-size: 1.2rem;">I'm VEFO — from COP30 stages to goat snuggles in rescue centres. My work fuses music production with animal empathy. I teach youth to record, layer, and mix using real animal vocalisations — because listening changes how we see them.</p>
                         <div class="values">
-                            <div class="value"><i class="fas fa-paw"></i><span>Animal Rights</span></div>
-                            <div class="value"><i class="fas fa-leaf"></i><span>Sustainability</span></div>
-                            <div class="value"><i class="fas fa-brain"></i><span>Mental Health</span></div>
-                            <div class="value"><i class="fas fa-hand-holding-heart"></i><span>Human Rights</span></div>
+                            <span class="value"><i class="fas fa-paw"></i> 6 sanctuaries</span>
+                            <span class="value"><i class="fas fa-music"></i> youth workshops</span>
+                            <span class="value"><i class="fas fa-hand-holding-heart"></i> ethical recording</span>
+                            <span class="value"><i class="fas fa-leaf"></i> plant based treaty</span>
                         </div>
+                        <p style="margin-top: 20px;">Planet Heroes / Green Smoothie are tools to bring kids into sanctuaries, where we listen to rescued animals and co‑create songs that fund their care.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Work Section -->
-        <section id="work" class="section">
+        <!-- AI ASSISTED LAB (non‑generative, educational constraints) -->
+        <section id="ai-lab" class="section ai-panel">
             <div class="container">
-                <div class="section-header">
-                    <div class="eyebrow">Impact</div>
-                    <h2>Campaigns & performances</h2>
+                <h3 style="display: flex; gap: 15px; align-items: center;"><i class="fas fa-microchip" style="color: #2b825b;"></i> AI‑assisted studio — zero generative AI</h3>
+                <p style="font-size: 1.2rem; margin-bottom: 30px;">Our tools only analyse, tag, and suggest ecological guardrails. You compose.</p>
+                <div class="grid-3">
+                    <div class="card" style="border-radius: 28px;">
+                        <div class="card-body">
+                            <i class="fas fa-tags" style="font-size: 2rem; color: #2b825b;"></i>
+                            <div class="card-title" style="margin-top: 10px;">smart tagging</div>
+                            <p>Emotion, habitat, frequency clustering — find the right crane call or distress call in seconds.</p>
+                            <span class="badge">alarm vs contact</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 2rem; color: #2b825b;"></i>
+                            <div class="card-title">ecological constraint</div>
+                            <p>“These two species don’t share a range — consider separate tracks.” or “overlapping frequencies, maybe pan?”</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <i class="fas fa-graduation-cap" style="font-size: 2rem; color: #2b825b;"></i>
+                            <div class="card-title">real‑time learning</div>
+                            <p>Click any sound: “elephant rumble — infrasound, contact, endangered (IUCN red list).” prompts: create a calm savanna?</p>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="grid cols-3">
-                    <div class="card">
-                        <div class="card-media">
-                            <div class="badge"><i class="fas fa-earth-americas"></i><span>Climate advocacy</span></div>
-                        </div>
-                        <div class="card-body">
-                            <div class="card-title">COP30 Delegate</div>
-                            <p>Bridging policy and art to advocate for plant-based solutions.</p>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-media">
-                            <div class="badge"><i class="fas fa-seedling"></i><span>Animal rights • Music</span></div>
-                        </div>
-                        <div class="card-body">
-                            <div class="card-title">Green Smoothie Challenge</div>
-                            <p>Campaign song reaching thousands during Earth Month.</p>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-media">
-                            <div class="badge"><i class="fas fa-graduation-cap"></i><span>Education • Youth</span></div>
-                        </div>
-                        <div class="card-body">
-                            <div class="card-title">Planet Heroes School Pilot</div>
-                            <p>Interactive workshops with live music and plant-based tasting.</p>
-                        </div>
-                    </div>
+                <div style="margin-top: 40px; background: white; border-radius: 60px; padding: 25px; display: flex; flex-wrap: wrap; gap: 20px; align-items: center;">
+                    <i class="fas fa-quote-left" style="font-size: 2rem; color: #2b825b;"></i>
+                    <span><strong>current project:</strong> “these howler monkeys and rainfrogs naturally coexist — their calls fit a dawn theme. AI suggests adding a slow heartbeat kick.”</span>
                 </div>
             </div>
         </section>
 
-        <!-- Services Section -->
-        <section id="services" class="section">
+        <!-- WORK/SANCTUARIES section (replaces generic work) -->
+        <section id="sanctuary" class="section">
             <div class="container">
                 <div class="section-header">
-                    <div class="eyebrow">Services</div>
-                    <h2>Let's work together</h2>
+                    <div class="eyebrow">partners in care</div>
+                    <h2>sanctuaries where we teach</h2>
                 </div>
-
-                <div class="grid cols-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="badge"><i class="fas fa-school"></i><span>Schools</span></div>
-                            <div class="card-title">Planet Heroes workshops</div>
-                            <p>90-minute sessions combining live music, games, and plant-based tasting.</p>
-                            <div class="row"><a class="link" href="#contact"><span>Inquire</span><i
-                                        class="fas fa-arrow-right"></i></a></div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="badge"><i class="fas fa-building"></i><span>Business</span></div>
-                            <div class="card-title">Wellness + benefit concerts</div>
-                            <p>Lunch & Learns, performances, and sessions on sustainability.</p>
-                            <div class="row"><a class="link" href="#contact"><span>Inquire</span><i
-                                        class="fas fa-arrow-right"></i></a></div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="badge"><i class="fas fa-hand-holding-heart"></i><span>NGOs</span></div>
-                            <div class="card-title">Campaign songs + facilitation</div>
-                            <p>Custom music and workshops for mission-led organizations.</p>
-                            <div class="row"><a class="link" href="#contact"><span>Inquire</span><i
-                                        class="fas fa-arrow-right"></i></a></div>
-                        </div>
-                    </div>
+                <div class="grid-4">
+                    <div class="card"><div class="card-body"><i class="fas fa-home" style="font-size: 2.5rem; color:#2b825b;"></i><div class="card-title">freedom farm</div>bangalore · rescued goats, poultry → music therapy sessions</div></div>
+                    <div class="card"><div class="card-body"><i class="fas fa-tree" style="font-size: 2.5rem; color:#2b825b;"></i><div class="card-title">wild care india</div>leopard, birds · youth sound mapping</div></div>
+                    <div class="card"><div class="card-body"><i class="fas fa-water" style="font-size: 2.5rem; color:#2b825b;"></i><div class="card-title">wetland centre</div>bird calls & ambient composition</div></div>
+                    <div class="card"><div class="card-body"><i class="fas fa-paw" style="font-size: 2.5rem; color:#2b825b;"></i><div class="card-title">elephant corridor</div>fundraising via soundscape EPs</div></div>
                 </div>
             </div>
         </section>
 
-        <!-- Contact Section -->
-        <section id="contact" class="section contact-section">
+        <!-- CONTACT & BOOK (same form, with email, but we emphasize workshops) -->
+        <section id="contact" class="section contact-section" style="background: #f0faf4;">
             <div class="container">
                 <div class="section-header">
-                    <div class="eyebrow">Contact</div>
-                    <h2>Book VEFO</h2>
+                    <div class="eyebrow">bring the workshop</div>
+                    <h2>book a sanctuary session</h2>
                 </div>
-
                 <div class="grid contact-grid">
-                    <!-- Left Column -->
                     <div class="card contact-card-left">
                         <div class="card-body">
-                            <div class="badge"><i class="fas fa-location-dot"></i><span>Bangalore • Worldwide</span>
-                            </div>
-                            <p class="contact-lead">Ready to bring conscious music to your event? Choose how to connect:
-                            </p>
-
+                            <div class="badge"><i class="fas fa-location-dot"></i> bangalore · worldwide</div>
+                            <p class="contact-lead" style="font-size: 1.3rem; margin: 20px 0;">schools, sanctuaries, festivals — let's co‑create music that helps animals.</p>
                             <div class="scheduling-options">
-                                <a href="https://www.cal.eu/vefomusic/15min" target="_blank" class="cal-button">
-                                    <div class="cal-button-left">
-                                        <i class="fas fa-calendar-check"></i>
-                                        <div>
-                                            <span>15 min quick chat</span>
-                                            <small>Brief introduction</small>
-                                        </div>
-                                    </div>
-                                    <span class="cal-badge">Free</span>
+                                <a href="#" class="cal-button">
+                                    <div class="cal-button-left"><i class="fas fa-calendar-check"></i><div><span>30min intro call</span><small> meet & greet</small></div></div><span class="cal-badge">free</span>
                                 </a>
-                                <a href="https://www.cal.eu/vefomusic/30min" target="_blank" class="cal-button">
-                                    <div class="cal-button-left">
-                                        <i class="fas fa-clock"></i>
-                                        <div>
-                                            <span>30 min consultation</span>
-                                            <small>Discuss your vision</small>
-                                        </div>
-                                    </div>
-                                    <span class="cal-badge">Free</span>
+                                <a href="#" class="cal-button">
+                                    <div class="cal-button-left"><i class="fas fa-clock"></i><div><span>workshop inquiry</span><small> school/sanctuary</small></div></div><span class="cal-badge">booking</span>
                                 </a>
-                                <a href="https://www.cal.eu/vefomusic/60min" target="_blank" class="cal-button">
-                                    <div class="cal-button-left">
-                                        <i class="fas fa-hourglass-half"></i>
-                                        <div>
-                                            <span>60 min deep dive</span>
-                                            <small>Detailed planning</small>
-                                        </div>
-                                    </div>
-                                    <span class="cal-badge">Free</span>
-                                </a>
-                            </div>
-
-                            <div class="or-divider"></div>
-
-                            <div class="contact-meta">
                             </div>
                         </div>
                     </div>
-
-                    <!-- Right Column - Working Form -->
                     <div class="card contact-card-right">
                         <div class="card-body">
                             <form class="form" action="https://formsubmit.co/vefomusic@zohomail.in" method="POST">
-                                <!-- Important: These hidden inputs control the form behavior -->
-                                <input type="hidden" name="_subject" value="New VEFO Booking Inquiry">
-                                <input type="hidden" name="_template" value="box">
-                                <input type="hidden" name="_captcha" value="true">
-
-                                <!-- Honeypot to prevent spam (hidden from real users) -->
+                                <input type="hidden" name="_next" value="https://vefo.earth/thanks">
+                                <input type="hidden" name="_subject" value="new sanctuary music inquiry">
                                 <input type="text" name="_honey" style="display:none">
-
-                                <div class="form-row">
-                                    <input class="input" type="text" name="name" placeholder="Your name" required>
-                                    <input class="input" type="email" name="email" placeholder="Email address" required>
+                                <div class="form-row" style="display: grid; gap: 12px; grid-template-columns: 1fr 1fr;">
+                                    <input class="input" style="padding: 14px; border-radius: 60px; border:1px solid #ccc;" type="text" name="name" placeholder="your name" required>
+                                    <input class="input" style="padding: 14px; border-radius: 60px;" type="email" name="email" placeholder="email" required>
                                 </div>
-
-                                <select class="select" name="organization_type" required>
-                                    <option value="" disabled selected>Organization type</option>
-                                    <option>School / Educational Institution</option>
-                                    <option>Business / Corporation</option>
-                                    <option>NGO / Nonprofit</option>
-                                    <option>Individual / Private Event</option>
+                                <select class="select" style="padding: 14px; border-radius: 60px; width:100%; margin:12px 0;" name="type">
+                                    <option>school / youth group</option>
+                                    <option>sanctuary / NGO</option>
+                                    <option>festival / event</option>
                                 </select>
-
-                                <input class="input" type="text" name="event_type" placeholder="Event type / occasion">
-                                <textarea class="textarea" name="message" placeholder="Tell me about your vision..."
-                                    required></textarea>
-
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-paper-plane"></i>
-                                    <span>Send inquiry</span>
-                                </button>
+                                <textarea class="textarea" style="border-radius: 30px; padding: 16px;" name="message" placeholder="tell me about the animals & youth you work with..." rows="4"></textarea>
+                                <button type="submit" class="btn" style="width:100%; margin-top: 12px;"><i class="fas fa-paper-plane"></i> send</button>
                             </form>
-                            <div class="helper">I'll respond within 2-3 days. No spam, ever.</div>
+                            <div class="helper" style="margin-top:12px;">⚡ no AI replies — I'll write within 48h</div>
                         </div>
                     </div>
                 </div>
@@ -939,143 +374,45 @@ header {
         </section>
     </main>
 
-    <!-- FOOTER - FULLY VISIBLE -->
     <footer class="footer">
         <div class="container footer-content">
             <div class="footer-top">
-                <a href="#" class="footer-logo">VEFO</a>
+                <a href="#" class="footer-logo" style="font-size: 2rem; font-weight: 700;">VEFO</a>
                 <div class="social-links">
-                    <a href="https://instagram.com/vefomusic" target="_blank" aria-label="Instagram"><i
-                            class="fab fa-instagram"></i></a>
-                    <a href="https://youtube.com/@vefomusic" target="_blank" aria-label="YouTube"><i
-                            class="fab fa-youtube"></i></a>
-                    <a href="https://linktr.ee/vefo" target="_blank" aria-label="Linktree"><i
-                            class="fas fa-link"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-soundcloud"></i></a>
                 </div>
-                <span class="badge"><i class="fas fa-envelope"></i><span>vefomusic@zohomail.in</span></span>
+                <span class="badge"><i class="fas fa-envelope"></i> vefomusic@zohomail.in</span>
             </div>
-            <div class="footer-bottom">
-                <p>© 2026 VEFO. Music for action. All rights reserved.</p>
-                <p style="margin-top: 8px;">Based in Bangalore, India — working worldwide 🌱</p>
+            <div class="footer-bottom" style="text-align: center; padding-top: 30px; color: #4a6b5c;">
+                <p>© 2026 VEFO · music for animal sensitivity · based in Bangalore, working with sanctuaries worldwide 🌿</p>
+                <p style="margin-top: 8px;">every loop helps animals — 50% of workshop proceeds go to partner sanctuaries.</p>
             </div>
         </div>
     </footer>
-    <!-- <script src="/app.js"></script> -->
-    <script >
-        document.addEventListener('DOMContentLoaded', function () {
-
-    // ─── CONTACT FORM: Let FormSubmit.co handle delivery ─────────────────────
-    // FormSubmit is free, client-agnostic, and requires NO backend.
-    // On FIRST submission, FormSubmit emails you an activation link.
-    // After you click that link, all future submissions go straight to your inbox.
-    //
-    // The form's action="https://formsubmit.co/vefomusic@zohomail.in" is already
-    // correct in your HTML. We just enhance UX here — no preventDefault().
-
-    const contactForm = document.querySelector('.form');
-
-    if (contactForm) {
-
-        // Add a hidden redirect field so FormSubmit sends users to a thank-you page
-        // (or back to your site) instead of FormSubmit's generic success page.
-        // Change the URL below to wherever you want users to land after submitting.
-        const redirectInput = document.createElement('input');
-        redirectInput.type = 'hidden';
-        redirectInput.name = '_next';
-        redirectInput.value = window.location.href.split('#')[0] + '?submitted=true';
-        contactForm.appendChild(redirectInput);
-
-        // Visual feedback: show a loading state on the submit button
-        contactForm.addEventListener('submit', function (e) {
-            const name    = this.querySelector('input[name="name"]').value.trim();
-            const email   = this.querySelector('input[name="email"]').value.trim();
-            const message = this.querySelector('textarea[name="message"]').value.trim();
-
-            if (!name || !email || !message) {
-                e.preventDefault();
-                showFormError('Please fill in all required fields.');
-                return;
+    <script>
+        // minimal interactivity (copy badge, form ux same as original but simplified)
+        document.addEventListener('DOMContentLoaded', function() {
+            const emailBadge = document.querySelector('.badge i.fa-envelope')?.closest('.badge');
+            if(emailBadge) {
+                emailBadge.style.cursor = 'pointer';
+                emailBadge.addEventListener('click', () => {
+                    navigator.clipboard.writeText('vefomusic@zohomail.in');
+                    emailBadge.innerHTML = '<i class="fas fa-check"></i> copied!';
+                    setTimeout(() => emailBadge.innerHTML = '<i class="fas fa-envelope"></i> vefomusic@zohomail.in', 2000);
+                });
             }
-
-            const submitBtn = this.querySelector('button[type="submit"]');
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Sending…</span>';
-            submitBtn.disabled = true;
-            // FormSubmit takes over from here — form submits normally (POST)
-        });
-    }
-
-    // ─── SHOW THANK-YOU BANNER IF REDIRECTED BACK ────────────────────────────
-    if (window.location.search.includes('submitted=true')) {
-        showSuccessBanner();
-        // Clean the URL
-        window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
-    }
-
-    // ─── EMAIL BADGE: click to copy ──────────────────────────────────────────
-    const emailBadge = document.querySelector('.badge i.fa-envelope')?.closest('.badge');
-    if (emailBadge) {
-        emailBadge.style.cursor = 'pointer';
-        emailBadge.title = 'Click to copy email';
-        emailBadge.addEventListener('click', function () {
-            navigator.clipboard.writeText('vefomusic@zohomail.in').then(() => {
-                const original = this.innerHTML;
-                this.innerHTML = '<i class="fas fa-check"></i><span>Copied!</span>';
-                setTimeout(() => { this.innerHTML = original; }, 2000);
+            // smooth scroll
+            document.querySelectorAll('a[href^="#"]').forEach(a => {
+                a.addEventListener('click', function(e) {
+                    const id = this.getAttribute('href');
+                    if(id === '#') return;
+                    const el = document.querySelector(id);
+                    if(el) { e.preventDefault(); el.scrollIntoView({behavior: 'smooth'}); }
+                });
             });
         });
-    }
-
-    // ─── SMOOTH SCROLL ───────────────────────────────────────────────────────
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            const href = this.getAttribute('href');
-            if (href === '#') return;
-            const target = document.querySelector(href);
-            if (target) {
-                e.preventDefault();
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
-    });
-
-    // ─── CAL BUTTON ANALYTICS ────────────────────────────────────────────────
-    document.querySelectorAll('.cal-button').forEach(button => {
-        button.addEventListener('click', function () {
-            const label = this.querySelector('span:not(.cal-badge)')?.textContent;
-            console.log(`Calendar booking clicked: ${label}`);
-        });
-    });
-
-});
-
-// ─── HELPERS ─────────────────────────────────────────────────────────────────
-
-function showFormError(msg) {
-    let el = document.querySelector('.form-error-msg');
-    if (!el) {
-        el = document.createElement('p');
-        el.className = 'form-error-msg';
-        el.style.cssText = 'color:#e53935;font-size:.875rem;margin-top:-8px;';
-        document.querySelector('.form')?.prepend(el);
-    }
-    el.textContent = msg;
-    setTimeout(() => el.remove(), 4000);
-}
-
-function showSuccessBanner() {
-    const banner = document.createElement('div');
-    banner.style.cssText = `
-        position: fixed; top: 80px; left: 50%; transform: translateX(-50%);
-        background: #4caf50; color: white; padding: 14px 28px;
-        border-radius: 8px; font-weight: 600; font-size: 1rem;
-        box-shadow: 0 10px 30px rgba(76,175,80,.35); z-index: 9999;
-        animation: fadeInUp .4s ease;
-    `;
-    banner.innerHTML = '<i class="fas fa-check-circle" style="margin-right:8px"></i> Message sent! I\'ll be in touch within 2–3 days.';
-    document.body.appendChild(banner);
-    setTimeout(() => banner.remove(), 5000);
-}
     </script>
 </body>
-
 </html>
