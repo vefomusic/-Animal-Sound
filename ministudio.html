@@ -1,618 +1,754 @@
-        <!-- Embedded Animal Sound Studio Section -->
-        <section id="studio" class="section" style="background: #0a0a0a; padding: 0; margin: 0;">
-            
-            <!-- 1. TITLE BAR -->
-            <div style="background: linear-gradient(135deg, #1e4d33 0%, #2d5a3f 100%); padding: 25px 20px; text-align: center; border-bottom: 3px solid #F9D342;">
-                <h2 style="color: #F9D342; font-size: 2.2rem; margin: 0; text-shadow: 0 2px 10px rgba(249, 211, 66, 0.3);">🎵 Animal Sound Studio</h2>
-                <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95rem; margin: 8px 0 0 0;">
-                    Load samples • Arrange patterns • Create your mix • No login required
-                </p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BandLab-Style DAW</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0a0e14;
+            color: #e1e4e8;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: #161b22;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #21262d;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fb6340;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .transport-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .transport-btn {
+            background: #21262d;
+            border: 1px solid #30363d;
+            color: #e1e4e8;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .transport-btn:hover {
+            background: #30363d;
+            border-color: #fb6340;
+        }
+
+        .transport-btn.play {
+            background: #fb6340;
+            border-color: #fb6340;
+            color: white;
+        }
+
+        .transport-btn.play:hover {
+            background: #ff7a5c;
+        }
+
+        .bpm-display {
+            background: #21262d;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: #161b22;
+            border-right: 1px solid #21262d;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .sidebar-section {
+            padding: 16px;
+            border-bottom: 1px solid #21262d;
+        }
+
+        .section-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #8b949e;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .track-folder {
+            background: #0d1117;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #21262d;
+            overflow: hidden;
+        }
+
+        .folder-header {
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .folder-header:hover {
+            background: #161b22;
+        }
+
+        .folder-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .folder-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .folder-icon.bass {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .folder-icon.kick {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .folder-icon.melody {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .folder-name {
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .folder-count {
+            font-size: 11px;
+            color: #8b949e;
+        }
+
+        .folder-toggle {
+            color: #8b949e;
+            transition: transform 0.2s;
+        }
+
+        .folder-toggle.open {
+            transform: rotate(90deg);
+        }
+
+        .folder-tracks {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .folder-tracks.open {
+            max-height: 500px;
+        }
+
+        .track-item {
+            padding: 10px 12px;
+            background: #0d1117;
+            border-top: 1px solid #21262d;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .track-item:hover {
+            background: #161b22;
+        }
+
+        .track-item.active {
+            background: #1c2128;
+            border-left: 3px solid #fb6340;
+        }
+
+        .track-color {
+            width: 4px;
+            height: 24px;
+            border-radius: 2px;
+        }
+
+        .track-details {
+            flex: 1;
+        }
+
+        .track-name {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .track-type {
+            font-size: 10px;
+            color: #8b949e;
+        }
+
+        .track-mute {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            border: 1px solid #30363d;
+            background: transparent;
+            color: #8b949e;
+            cursor: pointer;
+            font-size: 11px;
+            transition: all 0.2s;
+        }
+
+        .track-mute:hover {
+            background: #21262d;
+            color: #e1e4e8;
+        }
+
+        .track-mute.muted {
+            background: #fb6340;
+            border-color: #fb6340;
+            color: white;
+        }
+
+        .add-track-btn {
+            background: linear-gradient(135deg, #fb6340 0%, #ff8c42 100%);
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .add-track-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(251, 99, 64, 0.3);
+        }
+
+        /* Arrangement View */
+        .arrangement-view {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #0d1117;
+        }
+
+        .timeline-header {
+            height: 50px;
+            background: #161b22;
+            border-bottom: 1px solid #21262d;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .timeline-ruler {
+            display: flex;
+            height: 100%;
+            align-items: center;
+            gap: 60px;
+            padding-left: 40px;
+        }
+
+        .bar-marker {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .bar-number {
+            font-size: 12px;
+            font-weight: 600;
+            color: #8b949e;
+        }
+
+        .bar-line {
+            width: 2px;
+            height: 12px;
+            background: #30363d;
+        }
+
+        .tracks-container {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .track-row {
+            height: 80px;
+            border-bottom: 1px solid #21262d;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            transition: background 0.2s;
+        }
+
+        .track-row:hover {
+            background: #161b22;
+        }
+
+        .grid-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .grid-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: #21262d;
+        }
+
+        .grid-line.strong {
+            background: #30363d;
+            width: 2px;
+        }
+
+        .clip {
+            position: absolute;
+            height: 60px;
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: move;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .clip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+        }
+
+        .clip.bass {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .clip.kick {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .clip.melody {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .clip-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .clip-waveform {
+            height: 20px;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .waveform-bar {
+            width: 3px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 2px;
+        }
+
+        .playhead {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #fb6340;
+            z-index: 100;
+            pointer-events: none;
+            box-shadow: 0 0 10px rgba(251, 99, 64, 0.5);
+        }
+
+        .playhead-handle {
+            position: absolute;
+            top: -8px;
+            left: -6px;
+            width: 14px;
+            height: 14px;
+            background: #fb6340;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(251, 99, 64, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                🎵 BandLab Studio
             </div>
-
-            <!-- 2. TRANSPORT CONTROLS BAR -->
-            <div style="background: #2a2a2a; padding: 20px; border-bottom: 1px solid #333; display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap;">
-                <button id="playBtn" style="background: #4CAF50; color: white; border: none; border-radius: 8px; width: 70px; height: 60px; font-size: 24px; cursor: pointer; box-shadow: 0 3px 10px rgba(76, 175, 80, 0.4); transition: all 0.2s ease; font-weight: bold;">
-                    ▶
-                </button>
-                <button id="stopBtn" style="background: #f44336; color: white; border: none; border-radius: 8px; width: 60px; height: 60px; font-size: 20px; cursor: pointer; box-shadow: 0 3px 10px rgba(244, 67, 54, 0.4); transition: all 0.2s ease; font-weight: bold;">
-                    ⏹
-                </button>
-                <button id="recordBtn" style="background: #ff9800; color: white; border: none; border-radius: 8px; width: 60px; height: 60px; font-size: 20px; cursor: pointer; box-shadow: 0 3px 10px rgba(255, 152, 0, 0.4); transition: all 0.2s ease; font-weight: bold;">
-                    ⏺
-                </button>
-                <div style="background: #1a1a1a; padding: 12px 30px; border-radius: 8px; color: #F9D342; font-family: 'Courier New', monospace; font-size: 1.4rem; font-weight: bold; border: 2px solid #333; min-width: 120px; text-align: center;">
-                    <span id="timecode">00:00</span>
-                </div>
-                <button id="clearBtn" style="background: #607D8B; color: white; border: none; border-radius: 8px; padding: 12px 25px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease;">
-                    🗑️ Clear All
-                </button>
-                <button id="downloadBtn" style="background: #9C27B0; color: white; border: none; border-radius: 8px; padding: 12px 25px; font-size: 0.95rem; font-weight: 600; cursor: pointer; display: none; transition: all 0.2s ease;">
-                    💾 Download Mix
-                </button>
+            <div class="transport-controls">
+                <button class="transport-btn" id="stopBtn">⏹</button>
+                <button class="transport-btn play" id="playBtn">▶</button>
+                <button class="transport-btn" id="recordBtn">⏺</button>
+                <div class="bpm-display">120 BPM</div>
             </div>
-
-            <!-- 3. PLAYLIST / TIMELINE AREA (Full Width) -->
-            <div style="background: #1a1a1a; border-bottom: 1px solid #333;">
-                
-                <!-- Timeline Header -->
-                <div style="background: #252525; padding: 15px 20px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center;">
-                    <div style="color: #F9D342; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;">
-                        📼 Playlist / Timeline
-                    </div>
-                    <div style="color: #888; font-size: 0.85rem;">
-                        Drag animal samples below to create patterns on the timeline
-                    </div>
-                </div>
-
-                <!-- Timeline Content -->
-                <div style="overflow-x: auto; overflow-y: visible;">
-                    <!-- Time Ruler -->
-                    <div style="background: #222; border-bottom: 1px solid #333; padding: 8px 0; position: sticky; top: 0; z-index: 10; min-width: 1000px;">
-                        <div style="display: flex; padding-left: 150px;">
-                            <div style="color: #666; font-size: 0.75rem; font-weight: 600; width: 120px; text-align: center; border-right: 1px solid #333;">0:00</div>
-                            <div style="color: #666; font-size: 0.75rem; font-weight: 600; width: 120px; text-align: center; border-right: 1px solid #333;">0:01</div>
-                            <div style="color: #666; font-size: 0.75rem; font-weight: 600; width: 120px; text-align: center; border-right: 1px solid #333;">0:02</div>
-                            <div style="color: #666; font-size: 0.75rem; font-weight: 600; width: 120px; text-align: center; border-right: 1px solid #333;">0:03</div>
-                            <div style="color: #666; font-size: 0.75rem; font-weight: 600; width: 120px; text-align: center; border-right: 1px solid #333;">0:04</div>
-                            <div style="color: #666; font-size: 0.75rem; font-weight: 600; width: 120px; text-align: center; border-right: 1px solid #333;">0:05</div>
-                            <div style="color: #666; font-size: 0.75rem; font-weight: 600; width: 120px; text-align: center; border-right: 1px solid #333;">0:06</div>
-                            <div style="color: #666; font-size: 0.75rem; font-weight: 600; width: 120px; text-align: center; border-right: 1px solid #333;">0:07</div>
-                            <div style="color: #666; font-size: 0.75rem; font-weight: 600; width: 120px; text-align: center;">0:08</div>
-                        </div>
-                    </div>
-
-                    <!-- Track Lanes -->
-                    <div id="trackLanes" style="min-width: 1000px;">
-                        <!-- Track 1 -->
-                        <div class="track-lane" data-track="0" style="display: flex; border-bottom: 1px solid #2a2a2a; min-height: 70px; position: relative;">
-                            <div style="width: 150px; background: #252525; padding: 15px; display: flex; align-items: center; border-right: 1px solid #333; position: sticky; left: 0; z-index: 5;">
-                                <div style="width: 10px; height: 10px; background: #4CAF50; border-radius: 50%; margin-right: 10px; box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);"></div>
-                                <span style="color: #ccc; font-size: 0.9rem; font-weight: 600;">Track 1</span>
-                            </div>
-                            <div class="track-content" style="flex: 1; position: relative; background-image: repeating-linear-gradient(90deg, transparent, transparent 119px, #2a2a2a 119px, #2a2a2a 120px); padding: 12px;">
-                                <!-- Patterns drop here -->
-                            </div>
-                        </div>
-
-                        <!-- Track 2 -->
-                        <div class="track-lane" data-track="1" style="display: flex; border-bottom: 1px solid #2a2a2a; min-height: 70px; position: relative;">
-                            <div style="width: 150px; background: #252525; padding: 15px; display: flex; align-items: center; border-right: 1px solid #333; position: sticky; left: 0; z-index: 5;">
-                                <div style="width: 10px; height: 10px; background: #2196F3; border-radius: 50%; margin-right: 10px; box-shadow: 0 0 8px rgba(33, 150, 243, 0.6);"></div>
-                                <span style="color: #ccc; font-size: 0.9rem; font-weight: 600;">Track 2</span>
-                            </div>
-                            <div class="track-content" style="flex: 1; position: relative; background-image: repeating-linear-gradient(90deg, transparent, transparent 119px, #2a2a2a 119px, #2a2a2a 120px); padding: 12px;">
-                                <!-- Patterns drop here -->
-                            </div>
-                        </div>
-
-                        <!-- Track 3 -->
-                        <div class="track-lane" data-track="2" style="display: flex; border-bottom: 1px solid #2a2a2a; min-height: 70px; position: relative;">
-                            <div style="width: 150px; background: #252525; padding: 15px; display: flex; align-items: center; border-right: 1px solid #333; position: sticky; left: 0; z-index: 5;">
-                                <div style="width: 10px; height: 10px; background: #FF9800; border-radius: 50%; margin-right: 10px; box-shadow: 0 0 8px rgba(255, 152, 0, 0.6);"></div>
-                                <span style="color: #ccc; font-size: 0.9rem; font-weight: 600;">Track 3</span>
-                            </div>
-                            <div class="track-content" style="flex: 1; position: relative; background-image: repeating-linear-gradient(90deg, transparent, transparent 119px, #2a2a2a 119px, #2a2a2a 120px); padding: 12px;">
-                                <!-- Patterns drop here -->
-                            </div>
-                        </div>
-
-                        <!-- Track 4 -->
-                        <div class="track-lane" data-track="3" style="display: flex; border-bottom: 1px solid #2a2a2a; min-height: 70px; position: relative;">
-                            <div style="width: 150px; background: #252525; padding: 15px; display: flex; align-items: center; border-right: 1px solid #333; position: sticky; left: 0; z-index: 5;">
-                                <div style="width: 10px; height: 10px; background: #E91E63; border-radius: 50%; margin-right: 10px; box-shadow: 0 0 8px rgba(233, 30, 99, 0.6);"></div>
-                                <span style="color: #ccc; font-size: 0.9rem; font-weight: 600;">Track 4</span>
-                            </div>
-                            <div class="track-content" style="flex: 1; position: relative; background-image: repeating-linear-gradient(90deg, transparent, transparent 119px, #2a2a2a 119px, #2a2a2a 120px); padding: 12px;">
-                                <!-- Patterns drop here -->
-                            </div>
-                        </div>
-
-                        <!-- Track 5 -->
-                        <div class="track-lane" data-track="4" style="display: flex; border-bottom: 1px solid #2a2a2a; min-height: 70px; position: relative;">
-                            <div style="width: 150px; background: #252525; padding: 15px; display: flex; align-items: center; border-right: 1px solid #333; position: sticky; left: 0; z-index: 5;">
-                                <div style="width: 10px; height: 10px; background: #9C27B0; border-radius: 50%; margin-right: 10px; box-shadow: 0 0 8px rgba(156, 39, 176, 0.6);"></div>
-                                <span style="color: #ccc; font-size: 0.9rem; font-weight: 600;">Track 5</span>
-                            </div>
-                            <div class="track-content" style="flex: 1; position: relative; background-image: repeating-linear-gradient(90deg, transparent, transparent 119px, #2a2a2a 119px, #2a2a2a 120px); padding: 12px;">
-                                <!-- Patterns drop here -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div style="display: flex; gap: 12px;">
+                <button class="transport-btn">💾</button>
+                <button class="transport-btn">⚙️</button>
             </div>
+        </div>
 
-            <!-- 4. ANIMAL SAMPLES SECTION -->
-            <div style="background: #252525; padding: 25px 20px; border-bottom: 1px solid #333;">
-                <div style="max-width: 1400px; margin: 0 auto;">
-                    <div style="color: #F9D342; font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 20px; text-align: center;">
-                        🎹 Animal Sound Pads - Click to Play • Drag to Timeline
-                    </div>
-                    <div id="samplePads" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; max-width: 1200px; margin: 0 auto;">
-                        <!-- Pads generated by JavaScript -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- 5. MIX CONTROLS SECTION -->
-            <div style="background: #2a2a2a; padding: 25px 20px;">
-                <div style="max-width: 1400px; margin: 0 auto;">
-                    <div style="color: #F9D342; font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 20px; text-align: center;">
-                        🎚️ Mix Controls
-                    </div>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto;">
-                        
-                        <!-- Master Volume -->
-                        <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; border: 1px solid #333;">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                                <label style="color: #ccc; font-size: 0.95rem; font-weight: 600;">Master Volume</label>
-                                <span id="volumeValue" style="color: #F9D342; font-size: 0.95rem; font-weight: 700;">70%</span>
-                            </div>
-                            <input type="range" id="masterVolume" min="0" max="100" value="70" style="width: 100%;">
-                        </div>
-                        
-                        <!-- Reverb Mix -->
-                        <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; border: 1px solid #333;">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                                <label style="color: #ccc; font-size: 0.95rem; font-weight: 600;">Reverb Mix</label>
-                                <span id="reverbValue" style="color: #F9D342; font-size: 0.95rem; font-weight: 700;">20%</span>
-                            </div>
-                            <input type="range" id="reverbMix" min="0" max="100" value="20" style="width: 100%;">
-                        </div>
-                        
-                        <!-- Playback Speed -->
-                        <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; border: 1px solid #333;">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                                <label style="color: #ccc; font-size: 0.95rem; font-weight: 600;">Playback Speed</label>
-                                <span id="speedValue" style="color: #F9D342; font-size: 0.95rem; font-weight: 700;">100%</span>
-                            </div>
-                            <input type="range" id="playbackSpeed" min="50" max="150" value="100" style="width: 100%;">
-                        </div>
-                        
-                        <!-- Pitch Shift -->
-                        <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; border: 1px solid #333;">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                                <label style="color: #ccc; font-size: 0.95rem; font-weight: 600;">Pitch Shift</label>
-                                <span id="pitchValue" style="color: #F9D342; font-size: 0.95rem; font-weight: 700;">0 st</span>
-                            </div>
-                            <input type="range" id="pitchShift" min="-12" max="12" value="0" style="width: 100%;">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Help Footer -->
-            <div style="background: #1a1a1a; padding: 20px; text-align: center; color: #666; font-size: 0.85rem; border-top: 1px solid #333;">
-                <p style="margin: 0;"><strong style="color: #F9D342;">💡 Quick Start:</strong> Click 📁 on pads to load animal sounds • Click pads to preview • Drag to timeline • Press ▶ Play • Want more? <a href="https://opendaw.studio" target="_blank" style="color: #4CAF50; text-decoration: none; font-weight: 600;">Try OpenDAW Studio →</a></p>
-            </div>
-
-        </section>
-
-        <style>
-            /* Range Slider Styling */
-            input[type="range"] {
-                -webkit-appearance: none;
-                appearance: none;
-                height: 6px;
-                border-radius: 3px;
-                background: #333;
-                outline: none;
-            }
-
-            input[type="range"]::-webkit-slider-thumb {
-                -webkit-appearance: none;
-                appearance: none;
-                width: 18px;
-                height: 18px;
-                border-radius: 50%;
-                background: #F9D342;
-                cursor: pointer;
-                box-shadow: 0 2px 8px rgba(249, 211, 66, 0.5);
-                transition: all 0.2s ease;
-            }
-
-            input[type="range"]::-webkit-slider-thumb:hover {
-                transform: scale(1.1);
-                box-shadow: 0 3px 12px rgba(249, 211, 66, 0.7);
-            }
-
-            input[type="range"]::-moz-range-thumb {
-                width: 18px;
-                height: 18px;
-                border-radius: 50%;
-                background: #F9D342;
-                cursor: pointer;
-                border: none;
-                box-shadow: 0 2px 8px rgba(249, 211, 66, 0.5);
-                transition: all 0.2s ease;
-            }
-
-            input[type="range"]::-moz-range-thumb:hover {
-                transform: scale(1.1);
-                box-shadow: 0 3px 12px rgba(249, 211, 66, 0.7);
-            }
-
-            /* Button Hover Effects */
-            #playBtn:hover { background: #45a049; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(76, 175, 80, 0.5); }
-            #stopBtn:hover { background: #da190b; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(244, 67, 54, 0.5); }
-            #recordBtn:hover { background: #e68900; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 152, 0, 0.5); }
-            #clearBtn:hover { background: #546E7A; }
-            #downloadBtn:hover { background: #7B1FA2; }
-
-            #recordBtn.recording {
-                animation: recordPulse 1s infinite;
-            }
-
-            @keyframes recordPulse {
-                0%, 100% { opacity: 1; box-shadow: 0 3px 10px rgba(255, 152, 0, 0.8); }
-                50% { opacity: 0.7; box-shadow: 0 3px 20px rgba(255, 152, 0, 1); }
-            }
-
-            /* Sample Pad Styling */
-            .sample-pad {
-                aspect-ratio: 1;
-                border: 2px solid #333;
-                border-radius: 10px;
-                background: linear-gradient(135deg, #2a2a2a, #252525);
-                cursor: pointer;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                gap: 8px;
-                transition: all 0.2s ease;
-                position: relative;
-                padding: 12px;
-            }
-
-            .sample-pad:hover {
-                border-color: #F9D342;
-                background: linear-gradient(135deg, #333, #2a2a2a);
-                transform: translateY(-4px);
-                box-shadow: 0 6px 20px rgba(249, 211, 66, 0.3);
-            }
-
-            .sample-pad.active {
-                border-color: #4CAF50;
-                background: linear-gradient(135deg, #2d5a3f, #1e4d33);
-                animation: padPulse 0.3s ease;
-            }
-
-            @keyframes padPulse {
-                0% { transform: scale(1); }
-                50% { transform: scale(0.95); }
-                100% { transform: scale(1); }
-            }
-
-            .pad-load {
-                position: absolute;
-                top: 6px;
-                right: 6px;
-                width: 26px;
-                height: 26px;
-                background: #333;
-                border-radius: 6px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 12px;
-                cursor: pointer;
-                transition: all 0.2s ease;
-            }
-
-            .pad-load:hover {
-                background: #F9D342;
-                transform: scale(1.15);
-            }
-
-            .pad-icon {
-                font-size: 2.5rem;
-            }
-
-            .pad-name {
-                font-size: 0.8rem;
-                font-weight: 600;
-                text-align: center;
-                color: #ccc;
-                line-height: 1.3;
-            }
-
-            /* Pattern Block Styling */
-            .pattern-block {
-                background: linear-gradient(135deg, #F9D342, #f5c935);
-                border: 1px solid #e6b800;
-                border-radius: 6px;
-                padding: 10px 15px;
-                font-size: 0.85rem;
-                font-weight: 600;
-                color: #1a1a1a;
-                cursor: move;
-                display: inline-flex;
-                align-items: center;
-                gap: 8px;
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-                transition: all 0.2s ease;
-                position: relative;
-                user-select: none;
-                min-width: 100px;
-                height: 45px;
-                margin-right: 8px;
-            }
-
-            .pattern-block:hover {
-                background: linear-gradient(135deg, #ffd942, #F9D342);
-                transform: translateY(-2px);
-                box-shadow: 0 4px 10px rgba(249, 211, 66, 0.5);
-            }
-
-            .pattern-block .remove {
-                cursor: pointer;
-                opacity: 0.7;
-                transition: opacity 0.2s ease;
-                margin-left: auto;
-                font-weight: bold;
-            }
-
-            .pattern-block .remove:hover {
-                opacity: 1;
-                color: #d32f2f;
-            }
-
-            /* Track Content Hover */
-            .track-content {
-                transition: background-color 0.3s ease;
-            }
-
-            .track-lane:hover .track-content {
-                background-color: rgba(249, 211, 66, 0.02);
-            }
-
-            /* Responsive */
-            @media (max-width: 768px) {
-                #samplePads {
-                    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)) !important;
-                }
-            }
-        </style>
-
-        <script>
-            // Audio Context Setup
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            const audioContext = new AudioContext();
-            
-            let masterGainNode = audioContext.createGain();
-            let reverbNode = audioContext.createConvolver();
-            let reverbGainNode = audioContext.createGain();
-            let dryGainNode = audioContext.createGain();
-            
-            masterGainNode.gain.value = 0.7;
-            reverbGainNode.gain.value = 0.2;
-            dryGainNode.gain.value = 0.8;
-            
-            dryGainNode.connect(masterGainNode);
-            reverbGainNode.connect(masterGainNode);
-            masterGainNode.connect(audioContext.destination);
-            
-            // Create reverb
-            const sampleRate = audioContext.sampleRate;
-            const length = sampleRate * 2;
-            const impulse = audioContext.createBuffer(2, length, sampleRate);
-            const impulseL = impulse.getChannelData(0);
-            const impulseR = impulse.getChannelData(1);
-            
-            for (let i = 0; i < length; i++) {
-                impulseL[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 2);
-                impulseR[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 2);
-            }
-            
-            reverbNode.buffer = impulse;
-            
-            // Sample Data
-            const samples = [
-                { name: 'Tree Frog', icon: '🐸', buffer: null },
-                { name: 'Cow Lowing', icon: '🐄', buffer: null },
-                { name: 'Goat Bleat', icon: '🐐', buffer: null },
-                { name: 'Bird Song', icon: '🐦', buffer: null },
-                { name: 'Elephant', icon: '🐘', buffer: null },
-                { name: 'Wolf Howl', icon: '🐺', buffer: null },
-                { name: 'Dolphin', icon: '🐬', buffer: null },
-                { name: 'Lion Roar', icon: '🦁', buffer: null }
-            ];
-            
-            let isRecording = false;
-            let mediaRecorder = null;
-            let recordedChunks = [];
-            let currentSpeed = 1.0;
-            let currentPitch = 0;
-            let isPlaying = false;
-            
-            // Initialize Pads
-            function initializePads() {
-                const padContainer = document.getElementById('samplePads');
-                
-                samples.forEach((sample, index) => {
-                    const pad = document.createElement('div');
-                    pad.className = 'sample-pad';
-                    pad.innerHTML = `
-                        <div class="pad-load" onclick="event.stopPropagation(); loadSample(${index})">📁</div>
-                        <div class="pad-icon">${sample.icon}</div>
-                        <div class="pad-name">${sample.name}</div>
-                    `;
-                    pad.onclick = () => playSample(index);
-                    pad.draggable = true;
-                    pad.ondragstart = (e) => {
-                        e.dataTransfer.setData('sampleIndex', index);
-                        e.dataTransfer.effectAllowed = 'copy';
-                    };
-                    padContainer.appendChild(pad);
-                });
-            }
-            
-            // Load Sample
-            function loadSample(index) {
-                const input = document.createElement('input');
-                input.type = 'file';
-                input.accept = 'audio/*';
-                input.onchange = async (e) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                        const arrayBuffer = await file.arrayBuffer();
-                        samples[index].buffer = await audioContext.decodeAudioData(arrayBuffer);
-                        samples[index].fileName = file.name;
-                        console.log(`Loaded: ${file.name}`);
-                    }
-                };
-                input.click();
-            }
-            
-            // Play Sample
-            function playSample(index) {
-                if (!samples[index].buffer) {
-                    alert('Load an audio file first by clicking the 📁 icon!');
-                    return;
-                }
-                
-                if (audioContext.state === 'suspended') {
-                    audioContext.resume();
-                }
-                
-                const source = audioContext.createBufferSource();
-                source.buffer = samples[index].buffer;
-                source.playbackRate.value = currentSpeed * Math.pow(2, currentPitch / 12);
-                
-                source.connect(dryGainNode);
-                source.connect(reverbNode);
-                reverbNode.connect(reverbGainNode);
-                
-                source.start();
-                
-                const pads = document.querySelectorAll('.sample-pad');
-                pads[index].classList.add('active');
-                setTimeout(() => pads[index].classList.remove('active'), 300);
-            }
-            
-            // Timeline Drag & Drop
-            document.querySelectorAll('.track-content').forEach(trackContent => {
-                trackContent.ondragover = (e) => {
-                    e.preventDefault();
-                    e.dataTransfer.dropEffect = 'copy';
-                    trackContent.style.backgroundColor = 'rgba(249, 211, 66, 0.1)';
-                };
-                
-                trackContent.ondragleave = () => {
-                    trackContent.style.backgroundColor = '';
-                };
-                
-                trackContent.ondrop = (e) => {
-                    e.preventDefault();
-                    trackContent.style.backgroundColor = '';
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <div class="section-title">Tracks</div>
                     
-                    const sampleIndex = parseInt(e.dataTransfer.getData('sampleIndex'));
-                    
-                    if (samples[sampleIndex].buffer) {
-                        const patternBlock = document.createElement('div');
-                        patternBlock.className = 'pattern-block';
-                        patternBlock.innerHTML = `
-                            ${samples[sampleIndex].icon} ${samples[sampleIndex].name}
-                            <span class="remove" onclick="this.parentElement.remove()">✕</span>
-                        `;
-                        patternBlock.dataset.sampleIndex = sampleIndex;
-                        trackContent.appendChild(patternBlock);
-                    } else {
-                        alert('Load an audio file into this pad first!');
-                    }
-                };
+                    <!-- Bass Folder -->
+                    <div class="track-folder">
+                        <div class="folder-header" onclick="toggleFolder('bass')">
+                            <div class="folder-info">
+                                <div class="folder-icon bass">🎸</div>
+                                <div>
+                                    <div class="folder-name">Bass</div>
+                                    <div class="folder-count">2 tracks</div>
+                                </div>
+                            </div>
+                            <span class="folder-toggle" id="bass-toggle">▶</span>
+                        </div>
+                        <div class="folder-tracks" id="bass-tracks">
+                            <div class="track-item active">
+                                <div class="track-color" style="background: #667eea;"></div>
+                                <div class="track-details">
+                                    <div class="track-name">Sub Bass</div>
+                                    <div class="track-type">Synth</div>
+                                </div>
+                                <button class="track-mute">M</button>
+                            </div>
+                            <div class="track-item">
+                                <div class="track-color" style="background: #764ba2;"></div>
+                                <div class="track-details">
+                                    <div class="track-name">Bass Guitar</div>
+                                    <div class="track-type">Audio</div>
+                                </div>
+                                <button class="track-mute">M</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kick Folder -->
+                    <div class="track-folder">
+                        <div class="folder-header" onclick="toggleFolder('kick')">
+                            <div class="folder-info">
+                                <div class="folder-icon kick">🥁</div>
+                                <div>
+                                    <div class="folder-name">Kick</div>
+                                    <div class="folder-count">2 tracks</div>
+                                </div>
+                            </div>
+                            <span class="folder-toggle" id="kick-toggle">▶</span>
+                        </div>
+                        <div class="folder-tracks" id="kick-tracks">
+                            <div class="track-item">
+                                <div class="track-color" style="background: #f093fb;"></div>
+                                <div class="track-details">
+                                    <div class="track-name">Kick 808</div>
+                                    <div class="track-type">Drum</div>
+                                </div>
+                                <button class="track-mute">M</button>
+                            </div>
+                            <div class="track-item">
+                                <div class="track-color" style="background: #f5576c;"></div>
+                                <div class="track-details">
+                                    <div class="track-name">Kick Layer</div>
+                                    <div class="track-type">Sample</div>
+                                </div>
+                                <button class="track-mute">M</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Melody Folder -->
+                    <div class="track-folder">
+                        <div class="folder-header" onclick="toggleFolder('melody')">
+                            <div class="folder-info">
+                                <div class="folder-icon melody">🎹</div>
+                                <div>
+                                    <div class="folder-name">Melody</div>
+                                    <div class="folder-count">1 track</div>
+                                </div>
+                            </div>
+                            <span class="folder-toggle" id="melody-toggle">▶</span>
+                        </div>
+                        <div class="folder-tracks" id="melody-tracks">
+                            <div class="track-item">
+                                <div class="track-color" style="background: #4facfe;"></div>
+                                <div class="track-details">
+                                    <div class="track-name">Lead Synth</div>
+                                    <div class="track-type">Synth</div>
+                                </div>
+                                <button class="track-mute">M</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="add-track-btn">+ Add Track</button>
+                </div>
+            </div>
+
+            <!-- Arrangement View -->
+            <div class="arrangement-view">
+                <div class="timeline-header">
+                    <div class="timeline-ruler">
+                        <div class="bar-marker">
+                            <div class="bar-number">1</div>
+                            <div class="bar-line"></div>
+                        </div>
+                        <div class="bar-marker">
+                            <div class="bar-number">2</div>
+                            <div class="bar-line"></div>
+                        </div>
+                        <div class="bar-marker">
+                            <div class="bar-number">3</div>
+                            <div class="bar-line"></div>
+                        </div>
+                        <div class="bar-marker">
+                            <div class="bar-number">4</div>
+                            <div class="bar-line"></div>
+                        </div>
+                        <div class="bar-marker">
+                            <div class="bar-number">5</div>
+                            <div class="bar-line"></div>
+                        </div>
+                        <div class="bar-marker">
+                            <div class="bar-number">6</div>
+                            <div class="bar-line"></div>
+                        </div>
+                        <div class="bar-marker">
+                            <div class="bar-number">7</div>
+                            <div class="bar-line"></div>
+                        </div>
+                        <div class="bar-marker">
+                            <div class="bar-number">8</div>
+                            <div class="bar-line"></div>
+                        </div>
+                    </div>
+                    <div class="playhead" id="playhead">
+                        <div class="playhead-handle"></div>
+                    </div>
+                </div>
+
+                <div class="tracks-container" id="tracksContainer">
+                    <!-- Grid Lines -->
+                    <div class="grid-lines">
+                        <div class="grid-line strong" style="left: 40px;"></div>
+                        <div class="grid-line" style="left: 100px;"></div>
+                        <div class="grid-line" style="left: 160px;"></div>
+                        <div class="grid-line" style="left: 220px;"></div>
+                        <div class="grid-line strong" style="left: 280px;"></div>
+                        <div class="grid-line" style="left: 340px;"></div>
+                        <div class="grid-line" style="left: 400px;"></div>
+                        <div class="grid-line" style="left: 460px;"></div>
+                        <div class="grid-line strong" style="left: 520px;"></div>
+                    </div>
+
+                    <!-- Bass Tracks -->
+                    <div class="track-row">
+                        <div class="clip bass" style="left: 40px; width: 180px;">
+                            <div class="clip-name">Sub Bass Loop</div>
+                            <div class="clip-waveform">
+                                <div class="waveform-bar" style="height: 40%;"></div>
+                                <div class="waveform-bar" style="height: 70%;"></div>
+                                <div class="waveform-bar" style="height: 90%;"></div>
+                                <div class="waveform-bar" style="height: 60%;"></div>
+                                <div class="waveform-bar" style="height: 80%;"></div>
+                                <div class="waveform-bar" style="height: 50%;"></div>
+                            </div>
+                        </div>
+                        <div class="clip bass" style="left: 280px; width: 240px;">
+                            <div class="clip-name">Sub Bass Chorus</div>
+                            <div class="clip-waveform">
+                                <div class="waveform-bar" style="height: 60%;"></div>
+                                <div class="waveform-bar" style="height: 85%;"></div>
+                                <div class="waveform-bar" style="height: 95%;"></div>
+                                <div class="waveform-bar" style="height: 70%;"></div>
+                                <div class="waveform-bar" style="height: 90%;"></div>
+                                <div class="waveform-bar" style="height: 55%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="track-row">
+                        <div class="clip bass" style="left: 160px; width: 120px;">
+                            <div class="clip-name">Bass Guitar</div>
+                            <div class="clip-waveform">
+                                <div class="waveform-bar" style="height: 55%;"></div>
+                                <div class="waveform-bar" style="height: 75%;"></div>
+                                <div class="waveform-bar" style="height: 85%;"></div>
+                                <div class="waveform-bar" style="height: 65%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kick Tracks -->
+                    <div class="track-row">
+                        <div class="clip kick" style="left: 40px; width: 480px;">
+                            <div class="clip-name">Kick 808 Pattern</div>
+                            <div class="clip-waveform">
+                                <div class="waveform-bar" style="height: 100%;"></div>
+                                <div class="waveform-bar" style="height: 30%;"></div>
+                                <div class="waveform-bar" style="height: 100%;"></div>
+                                <div class="waveform-bar" style="height: 30%;"></div>
+                                <div class="waveform-bar" style="height: 100%;"></div>
+                                <div class="waveform-bar" style="height: 30%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="track-row">
+                        <div class="clip kick" style="left: 280px; width: 180px;">
+                            <div class="clip-name">Kick Layer Drop</div>
+                            <div class="clip-waveform">
+                                <div class="waveform-bar" style="height: 95%;"></div>
+                                <div class="waveform-bar" style="height: 40%;"></div>
+                                <div class="waveform-bar" style="height: 95%;"></div>
+                                <div class="waveform-bar" style="height: 40%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Melody Track -->
+                    <div class="track-row">
+                        <div class="clip melody" style="left: 160px; width: 360px;">
+                            <div class="clip-name">Lead Synth Melody</div>
+                            <div class="clip-waveform">
+                                <div class="waveform-bar" style="height: 65%;"></div>
+                                <div class="waveform-bar" style="height: 80%;"></div>
+                                <div class="waveform-bar" style="height: 70%;"></div>
+                                <div class="waveform-bar" style="height: 85%;"></div>
+                                <div class="waveform-bar" style="height: 75%;"></div>
+                                <div class="waveform-bar" style="height: 60%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isPlaying = false;
+        let playheadPosition = 40;
+
+        function toggleFolder(folderId) {
+            const tracks = document.getElementById(`${folderId}-tracks`);
+            const toggle = document.getElementById(`${folderId}-toggle`);
+            
+            tracks.classList.toggle('open');
+            toggle.classList.toggle('open');
+        }
+
+        document.getElementById('playBtn').addEventListener('click', function() {
+            isPlaying = !isPlaying;
+            this.textContent = isPlaying ? '⏸' : '▶';
+            
+            if (isPlaying) {
+                animatePlayhead();
+            }
+        });
+
+        document.getElementById('stopBtn').addEventListener('click', function() {
+            isPlaying = false;
+            document.getElementById('playBtn').textContent = '▶';
+            playheadPosition = 40;
+            document.getElementById('playhead').style.left = playheadPosition + 'px';
+        });
+
+        function animatePlayhead() {
+            if (!isPlaying) return;
+            
+            playheadPosition += 2;
+            if (playheadPosition > 600) playheadPosition = 40;
+            
+            document.getElementById('playhead').style.left = playheadPosition + 'px';
+            requestAnimationFrame(animatePlayhead);
+        }
+
+        // Mute button functionality
+        document.querySelectorAll('.track-mute').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.classList.toggle('muted');
             });
-            
-            // Transport Controls
-            document.getElementById('playBtn').onclick = function() {
-                if (isPlaying) return;
-                isPlaying = true;
-                
-                document.querySelectorAll('.track-content').forEach((track, trackIndex) => {
-                    const patterns = Array.from(track.querySelectorAll('.pattern-block'))
-                        .map(el => parseInt(el.dataset.sampleIndex));
-                    
-                    patterns.forEach((sampleIndex, position) => {
-                        setTimeout(() => {
-                            if (isPlaying) playSample(sampleIndex);
-                        }, position * 1000);
-                    });
-                });
-                
-                setTimeout(() => { isPlaying = false; }, 10000);
-            };
-            
-            document.getElementById('stopBtn').onclick = function() {
-                isPlaying = false;
-            };
-            
-            document.getElementById('clearBtn').onclick = function() {
-                if (confirm('Clear all patterns from timeline?')) {
-                    document.querySelectorAll('.pattern-block').forEach(el => el.remove());
-                }
-            };
-            
-            // Recording
-            document.getElementById('recordBtn').onclick = async function() {
-                if (!isRecording) {
-                    const dest = audioContext.createMediaStreamDestination();
-                    masterGainNode.connect(dest);
-                    
-                    mediaRecorder = new MediaRecorder(dest.stream);
-                    recordedChunks = [];
-                    
-                    mediaRecorder.ondataavailable = (e) => {
-                        if (e.data.size > 0) recordedChunks.push(e.data);
-                    };
-                    
-                    mediaRecorder.onstop = () => {
-                        const blob = new Blob(recordedChunks, { type: 'audio/webm' });
-                        const url = URL.createObjectURL(blob);
-                        const downloadBtn = document.getElementById('downloadBtn');
-                        downloadBtn.style.display = 'inline-block';
-                        downloadBtn.dataset.url = url;
-                    };
-                    
-                    mediaRecorder.start();
-                    isRecording = true;
-                    this.classList.add('recording');
-                } else {
-                    mediaRecorder.stop();
-                    isRecording = false;
-                    this.classList.remove('recording');
-                }
-            };
-            
-            document.getElementById('downloadBtn').onclick = function() {
-                const a = document.createElement('a');
-                a.href = this.dataset.url;
-                a.download = `animal-sound-mix-${Date.now()}.webm`;
-                a.click();
-            };
-            
-            // Effect Controls
-            document.getElementById('masterVolume').oninput = function() {
-                masterGainNode.gain.value = this.value / 100;
-                document.getElementById('volumeValue').textContent = `${this.value}%`;
-            };
-            
-            document.getElementById('reverbMix').oninput = function() {
-                const amt = this.value / 100;
-                reverbGainNode.gain.value = amt;
-                dryGainNode.gain.value = 1 - amt;
-                document.getElementById('reverbValue').textContent = `${this.value}%`;
-            };
-            
-            document.getElementById('playbackSpeed').oninput = function() {
-                currentSpeed = this.value / 100;
-                document.getElementById('speedValue').textContent = `${this.value}%`;
-            };
-            
-            document.getElementById('pitchShift').oninput = function() {
-                currentPitch = parseFloat(this.value);
-                document.getElementById('pitchValue').textContent = `${this.value} st`;
-            };
-            
-            // Initialize
-            initializePads();
-        </script>
+        });
+
+        // Track selection
+        document.querySelectorAll('.track-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.track-item').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
